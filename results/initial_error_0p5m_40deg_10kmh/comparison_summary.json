@@ -1,9 +1,10 @@
 {
   "scenario": {
-    "reference_speed_kmh": 10.0,
+    "reference_path_progression_kmh": 10.0,
     "target_distance_m": 50.0,
     "requested_initial_lateral_error_m": 0.5,
     "requested_initial_yaw_error_deg": 40.0,
+    "progression_rate_estimate": "Five-sample moving average of the projected path-progress derivative",
     "settled_recovery_definition": "First continuous 1.0 s with |lateral error| <= 0.10 m and |yaw error| <= 5 deg"
   },
   "controllers": {
@@ -30,37 +31,14 @@
         "distance_m": 13.75357611196983
       },
       "maximum_speed_kmh": 12.704334371543869,
+      "path_progression": {
+        "maximum_rate_kmh": 11.650757497821003,
+        "tracking_rmse_mps": 0.4980410733840737
+      },
       "compute_time_ms": {
         "mean": 34.41655455557069,
         "p95": 69.5473960997333,
         "maximum": 79.07233099831501,
-        "deadline_miss_count": 0
-      }
-    },
-    "simplified_mpc": {
-      "label": "Simplified MPC",
-      "termination_reason": "lap_timeout",
-      "completed_50_m": false,
-      "elapsed_s": 91.5,
-      "progress_travelled_m": 3.2844719743780395,
-      "maximum_progress_m": 3.6318779015206153,
-      "initial_lateral_error_m": 0.4929292243040491,
-      "initial_yaw_error_deg": 40.005066453357465,
-      "lateral_error": {
-        "rms_m": 2.139945874488521,
-        "maximum_absolute_m": 2.2470774381410394,
-        "outside_one_m_sample_fraction": 0.9890829694323144
-      },
-      "yaw_error": {
-        "rms_deg": 17.541936519785327,
-        "maximum_absolute_deg": 40.00510140852954
-      },
-      "settled_recovery": null,
-      "maximum_speed_kmh": 6.330259993356488,
-      "compute_time_ms": {
-        "mean": 17.833459380953805,
-        "p95": 24.016098997890367,
-        "maximum": 48.68797700328287,
         "deadline_miss_count": 0
       }
     },
@@ -87,6 +65,10 @@
         "distance_m": 11.112131809095112
       },
       "maximum_speed_kmh": 10.399066815614646,
+      "path_progression": {
+        "maximum_rate_kmh": 10.603266822359645,
+        "tracking_rmse_mps": 0.5369242044515165
+      },
       "compute_time_ms": {
         "mean": 0.5667224770804447,
         "p95": 0.7009441025729757,

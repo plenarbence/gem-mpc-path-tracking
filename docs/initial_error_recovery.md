@@ -8,7 +8,7 @@ No controller gains, weights, models, or horizons are changed for this test.
 
 ## Scenario
 
-- Reference speed: `10 km/h`
+- Reference path-progression rate: `10 km/h`
 - Target path progress: `50 m`
 - Initial lateral displacement: `0.5 m` along the left path normal
 - Initial yaw error: `+40 deg`
@@ -37,9 +37,6 @@ roslaunch gem_control initial_error_test.launch \
   controller:=full_learned_mpc
 
 roslaunch gem_control initial_error_test.launch \
-  controller:=simplified_mpc
-
-roslaunch gem_control initial_error_test.launch \
   controller:=cascaded_p
 ```
 
@@ -59,14 +56,18 @@ both `|lateral error| <= 0.10 m` and `|yaw error| <= 5 deg`.
 |---|---:|---:|---:|---:|---:|
 | Full learned MPC | yes | `1.816 m` | `7.8 s` | `13.75 m` | `79.07 ms` |
 | Cascaded P | yes | `1.822 m` | `7.2 s` | `11.11 m` | `0.92 ms` |
-| Simplified MPC | no | `2.247 m` | not reached | not reached | `48.69 ms` |
 
 The full learned MPC and cascaded P controller both recovered and completed
-the requested distance. The simplified MPC reached only `3.63 m` maximum
-progress, reduced its speed to approximately zero, and ended on the
-`91.5 s` lap timeout. All simplified-MPC solves were accepted and no timing
-deadline was missed, so this is a limitation of its hierarchical control
-formulation for this large initial error rather than a solver failure.
+the requested distance.
+
+For the full learned MPC, `10 km/h` is the requested path-progression rate,
+not a vehicle-speed reference. Its vehicle speed can therefore be higher
+while the vehicle is strongly misaligned with the path. Ignoring curvature,
+the initial `40 deg` yaw error requires approximately
+`10 / cos(40 deg) = 13.1 km/h` vehicle speed to obtain `10 km/h` progress
+along the path. The comparison plot therefore shows measured `ds/dt` against
+the requested progression instead of comparing vehicle speed to a false
+speed reference.
 
 Both completing controllers temporarily exceeded the assignment's
 `+/-1 m` lateral band during the initial transient. This does not affect the

@@ -196,6 +196,8 @@ controller period ahead before optimization.
 
 Horizon 12 is the default: all 20 offline operational solves passed with
 `66.8 ms` complete-computation p95. Horizon 15 exceeded the `80 ms` criterion.
+For this controller, the legacy `reference_speed_mps` launch argument is the
+requested path-progression rate, not a vehicle-speed reference.
 
 Run the final guarded lap with Gazebo and the project RViz view:
 
@@ -217,12 +219,12 @@ rosrun gem_control analyze_full_mpc_run.py \
   /workspace/results/mpc/simulator_h12_19p5_kmh
 ```
 
-The final horizon-12 lap ran at `19.5 km/h` and travelled `831.68 m` with
-`0.00776 m` lateral RMS error and `0.05426 m` maximum error. All 1,648 solves
-were accepted; complete MPC computation was `36.63 ms` p95 and `76.71 ms`
-maximum with no `80 ms` deadline miss. Horizon 10 was therefore not required.
-Implementation details, limits, warm starts, deadline handling, and evidence
-are documented in
+The final horizon-12 lap used a `19.5 km/h` requested path progression and
+travelled `831.68 m` with `0.00776 m` lateral RMS error and `0.05426 m`
+maximum error. All 1,648 solves were accepted; complete MPC computation was
+`36.63 ms` p95 and `76.71 ms` maximum with no `80 ms` deadline miss. Horizon
+10 was therefore not required. Implementation details, limits, warm starts,
+deadline handling, and evidence are documented in
 [`docs/full_learned_mpc.md`](docs/full_learned_mpc.md).
 
 The third panel reports unsigned vehicle distance to the nearest original CSV
@@ -253,46 +255,19 @@ Implementation, timing, and validation details are in
 
 ![Cascaded-P validation](results/cascaded_p/simulator_19p5_kmh/validation.png)
 
-## Extra Controller: Simplified MPC
-
-The separate simplified hierarchical MPC optimizes speed-state and yaw
-increments with a 12-step, 1.2 s kinematic horizon. A lower yaw-P conversion
-produces the steering command with a `+/-0.5 rad` limit. The selected H2 neural
-model is used only for one causal delay-prediction step before optimization,
-not inside the horizon.
-
-Run the validated requested 19.5 km/h lap with:
-
-```bash
-roslaunch gem_control simplified_mpc_sim.launch \
-  gui:=true use_rviz:=true \
-  reference_speed_mps:=5.4166666667 target_laps:=1.0 \
-  output_directory:=/workspace/results/simplified_mpc/simulator_h12_19p5_kmh
-```
-
-The completed lap achieved `0.0122 m` RMS and `0.0529 m` maximum absolute
-lateral error. All 1,620 solves were accepted; complete calculation was
-`23.60 ms` p95 and `60.60 ms` maximum, with no `80 ms` deadline misses.
-After startup, measured speed averaged `19.16 km/h` and stayed between
-`18.34` and `19.99 km/h`. The normalized `Delta v` penalty was reduced from
-the frozen `4.0` value to `0.05` after partial-run validation. Details are in
-[`docs/simplified_mpc.md`](docs/simplified_mpc.md).
-
-![Simplified-MPC validation](results/simplified_mpc/simulator_h12_19p5_kmh/validation.png)
-
 ## Initial-Error Stress Test
 
-All three controllers were also run from the same `0.5 m` lateral and
-`+40 deg` yaw error at a `10 km/h` reference for a `50 m` target. The
-scenario is isolated in `initial_error_test.launch`, and every run performs
-its own timing commissioning.
+The full learned MPC and cascaded P were also run from the same `0.5 m`
+lateral and `+40 deg` yaw error at a `10 km/h` reference path progression for
+a `50 m` target. The scenario is isolated in `initial_error_test.launch`, and
+every run performs its own timing commissioning.
 
 The full learned MPC and cascaded P completed the target and met the defined
-settling condition after `13.75 m` and `11.11 m`, respectively. The
-simplified MPC did not recover: it stopped after reaching `3.63 m` maximum
-progress and ended on timeout. Both completing controllers temporarily
-exceeded `1 m` lateral error, so this is a robustness comparison rather than
-a passing assignment-limit run.
+settling condition after `13.75 m` and `11.11 m`, respectively. Both
+controllers temporarily exceeded `1 m` lateral error, so this is a robustness
+comparison rather than a passing assignment-limit run. The comparison uses
+measured path-progression rate, not vehicle speed, against the requested
+progression.
 
 Commands, exact metrics, and interpretation are documented in
 [`docs/initial_error_recovery.md`](docs/initial_error_recovery.md).
@@ -308,5 +283,5 @@ identification experiment are implemented. The system-identification stage and
 the shared smoothed reference-path layer are complete. The offline full learned
 MPC core, delayed-state preparation, warm start, horizon selection, guarded ROS
 execution, solver deadline handling, and closed-loop Gazebo validation are
-implemented. The cascaded-P and simplified hierarchical-MPC extensions are
-implemented and validated as separate controllers.
+implemented. The cascaded-P extension is implemented and validated as a
+separate controller.

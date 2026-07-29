@@ -64,7 +64,7 @@ The cost retains the tuned `v1` terms:
 ```text
 8.0        * lateral_error^2
 28.2682787 * (1 - cos(yaw_error))
-2.4        * (progress_speed - reference_speed)^2
+2.4        * (progression_rate - reference_progression)^2
 0.25908285 * (steering_command_change / 0.06)^2
 0.2061432  * (speed_command_change / 0.2)^2
 ```
@@ -149,7 +149,8 @@ cycles exceeded `80 ms`; both held the prior feasible command. The vehicle
 settled to `0.065 m/s` under zero command. Evidence is stored in
 `results/mpc/simulator_h12_run6/`.
 
-Run the final complete lap at `19.5 km/h` (`5.4167 m/s`) with:
+Run the final complete lap at a `19.5 km/h` (`5.4167 m/s`) requested path
+progression with:
 
 ```bash
 roslaunch gem_control full_mpc_sim.launch \
@@ -158,9 +159,11 @@ roslaunch gem_control full_mpc_sim.launch \
   output_directory:=/workspace/results/mpc/simulator_h12_19p5_kmh
 ```
 
-Lap mode ramps the reference during the first `3 s`, uses a speed-scaled
-slowdown near the finish, detects completion from continuous unwrapped path
-progress, and then holds zero until stationary. The recorded final lap covered
+The legacy launch argument name `reference_speed_mps` denotes the requested
+path-progression rate in the full MPC; it is not a vehicle-speed tracking
+reference. Lap mode ramps this progression during the first `3 s`, slows it
+near the finish, detects completion from continuous unwrapped path progress,
+and then holds zero until stationary. The recorded final lap covered
 `831.68 m` in 1,648 controlled cycles. Lateral error was `0.00776 m` RMS,
 `0.01301 m` p95 absolute, and `0.05426 m` maximum. Yaw error was
 `0.00322 rad` RMS and `0.02743 rad` maximum. Complete MPC computation was

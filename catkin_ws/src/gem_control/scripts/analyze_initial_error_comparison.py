@@ -17,12 +17,10 @@ import numpy as np
 
 CONTROLLERS = (
     ("full_learned_mpc", "Full learned MPC"),
-    ("simplified_mpc", "Simplified MPC"),
     ("cascaded_p", "Cascaded P"),
 )
 COLORS = {
     "full_learned_mpc": "#0072B2",
-    "simplified_mpc": "#D55E00",
     "cascaded_p": "#009E73",
 }
 SETTLED_LATERAL_ERROR_M = 0.10
@@ -71,6 +69,18 @@ def find_settled_index(
     return None
 
 
+def smoothed_progression_rate(
+    progress_m: np.ndarray, publish_time_s: np.ndarray
+) -> np.ndarray:
+    raw_rate = np.gradient(progress_m, publish_time_s)
+    window_size = 5
+    padding = window_size // 2
+    padded = np.pad(raw_rate, (padding, padding), mode="edge")
+    return np.convolve(
+        padded, np.full(window_size, 1.0 / window_size), mode="valid"
+    )
+
+
 def controller_metrics(
     controller: str,
     label: str,
@@ -82,6 +92,10 @@ def controller_metrics(
     )
     elapsed = columns["elapsed_s"]
     progress = columns["progress_m"] - columns["progress_m"][0]
+    progression_rate = smoothed_progression_rate(
+        columns["progress_m"], columns["publish_time_s"]
+    )
+    reference_progression = columns["reference_speed_mps"]
     lateral = columns["lateral_error_m"]
     yaw = columns["yaw_error_rad"]
     settled_index = find_settled_index(elapsed, lateral, yaw)
@@ -120,6 +134,18 @@ def controller_metrics(
             "distance_m": float(progress[settled_index]),
         },
         "maximum_speed_kmh": float(3.6 * np.max(columns["speed_mps"])),
+        "path_progression": {
+            "maximum_rate_kmh": float(3.6 * np.max(progression_rate)),
+            "tracking_rmse_mps": float(
+                np.sqrt(
+                    np.mean(
+                        np.square(
+                            progression_rate - reference_progression
+                        )
+                    )
+                )
+            ),
+        },
         "compute_time_ms": {
             "mean": float(np.mean(compute_ms)),
             "p95": float(np.quantile(compute_ms, 0.95)),
@@ -134,7 +160,8 @@ def controller_metrics(
         "progress_m": progress,
         "lateral_error_m": lateral,
         "yaw_error_rad": yaw,
-        "speed_mps": columns["speed_mps"],
+        "progression_rate_mps": progression_rate,
+        "reference_progression_mps": reference_progression,
     }
 
 
@@ -150,10 +177,14 @@ def analyze(root_directory: Path) -> dict[str, object]:
 
     summary = {
         "scenario": {
-            "reference_speed_kmh": 10.0,
+            "reference_path_progression_kmh": 10.0,
             "target_distance_m": 50.0,
             "requested_initial_lateral_error_m": 0.5,
             "requested_initial_yaw_error_deg": 40.0,
+            "progression_rate_estimate": (
+                "Five-sample moving average of the projected path-progress "
+                "derivative"
+            ),
             "settled_recovery_definition": (
                 "First continuous 1.0 s with |lateral error| <= 0.10 m "
                 "and |yaw error| <= 5 deg"
@@ -187,25 +218,31 @@ def analyze(root_directory: Path) -> dict[str, object]:
             **style,
         )
         axes[2].plot(
-            columns["progress_m"], 3.6 * columns["speed_mps"], **style
+            columns["progress_m"],
+            3.6 * columns["progression_rate_mps"],
+            **style,
+        )
+        axes[2].plot(
+            columns["progress_m"],
+            3.6 * columns["reference_progression_mps"],
+            color=COLORS[controller],
+            linewidth=1.1,
+            linestyle="--",
+            alpha=0.75,
+            label=label + " requested",
         )
 
     axes[0].axhline(1.0, color="#555555", linestyle="--", linewidth=1.0)
     axes[0].axhline(-1.0, color="#555555", linestyle="--", linewidth=1.0)
     axes[0].set_ylabel("lateral error [m]")
-    axes[0].set_title("0.5 m / 40 deg initial-error recovery at 10 km/h")
+    axes[0].set_title(
+        "0.5 m / 40 deg recovery at 10 km/h requested path progression"
+    )
     axes[0].legend(loc="best")
     axes[1].axhline(5.0, color="#777777", linestyle=":", linewidth=1.0)
     axes[1].axhline(-5.0, color="#777777", linestyle=":", linewidth=1.0)
     axes[1].set_ylabel("yaw error [deg]")
-    axes[2].axhline(
-        10.0,
-        color="#555555",
-        linestyle="--",
-        linewidth=1.0,
-        label="Reference",
-    )
-    axes[2].set_ylabel("speed [km/h]")
+    axes[2].set_ylabel("path progression rate [km/h]")
     axes[2].set_xlabel("path progress from initial projection [m]")
     axes[2].set_xlim(0.0, 50.0)
     for axis in axes:
