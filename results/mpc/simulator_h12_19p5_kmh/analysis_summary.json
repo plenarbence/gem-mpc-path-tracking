@@ -8,6 +8,13 @@
     "p95_absolute_m": 0.013006456299728124,
     "maximum_absolute_m": 0.054257803475657236
   },
+  "original_csv_waypoint_distance": {
+    "metric": "unsigned distance to nearest selected-lap CSV waypoint",
+    "waypoint_count": 3151,
+    "rms_m": 0.09692026464702247,
+    "p95_m": 0.17802745820276789,
+    "maximum_m": 0.28878286177814794
+  },
   "yaw_error": {
     "rms_rad": 0.0032199600764468684,
     "maximum_absolute_rad": 0.027426221347476964

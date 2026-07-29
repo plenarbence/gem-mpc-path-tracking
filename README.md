@@ -225,6 +225,9 @@ Implementation details, limits, warm starts, deadline handling, and evidence
 are documented in
 [`docs/full_learned_mpc.md`](docs/full_learned_mpc.md).
 
+The third panel reports unsigned vehicle distance to the nearest original CSV
+waypoint; the first two panels retain the signed smoothed-path error.
+
 ![Final cross-track error and assignment limit](results/mpc/simulator_h12_19p5_kmh/cross_track_error.png)
 
 ## Status

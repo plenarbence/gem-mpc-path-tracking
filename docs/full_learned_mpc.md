@@ -138,7 +138,9 @@ rosrun gem_control analyze_full_mpc_run.py \
 
 The analyzer writes the combined `validation.png` and a dedicated
 `cross_track_error.png`. The dedicated plot shows the assignment's `+/- 1 m`
-constraint and a detailed view annotated with RMS, p95, and maximum error.
+constraint, a detailed signed smoothed-path error view, and the unsigned
+distance from each logged vehicle position to the nearest original CSV
+waypoint in the selected one-lap range.
 
 The completed validation covered 151 control cycles and `27.63 m`. Lateral
 error was `0.00725 m` RMS, `0.02034 m` p95 absolute, and `0.02568 m` maximum.

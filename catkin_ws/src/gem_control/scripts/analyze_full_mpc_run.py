@@ -12,8 +12,12 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
+from scipy.spatial import cKDTree
 
-from gem_control.reference_path import build_configured_reference_path
+from gem_control.reference_path import (
+    build_configured_reference_path,
+    load_waypoint_csv,
+)
 
 
 def load_columns(path: Path) -> dict[str, np.ndarray]:
@@ -41,7 +45,7 @@ def analyze(run_directory: Path) -> dict[str, object]:
     controller_summary = json.loads(
         (run_directory / "summary.json").read_text(encoding="ascii")
     )
-    path = build_configured_reference_path()[0]
+    path, preprocessing, _ = build_configured_reference_path()
     progress = np.linspace(
         float(np.min(columns["progress_m"])) - 1.0,
         float(np.max(columns["progress_m"])) + 1.0,
@@ -52,6 +56,14 @@ def analyze(run_directory: Path) -> dict[str, object]:
     yaw_error = columns["yaw_error_rad"]
     total_compute = columns["mpc_total_compute_s"]
     publish_interval = np.diff(columns["publish_time_s"])
+    original_waypoints = load_waypoint_csv(preprocessing.source_csv)[
+        preprocessing.first_lap_raw_index
+        : preprocessing.last_lap_raw_index + 1
+    ]
+    vehicle_positions = np.column_stack([columns["x_m"], columns["y_m"]])
+    original_waypoint_distance = cKDTree(original_waypoints).query(
+        vehicle_positions
+    )[0]
 
     summary = {
         "termination_reason": controller_summary["termination_reason"],
@@ -66,6 +78,15 @@ def analyze(run_directory: Path) -> dict[str, object]:
                 np.quantile(np.abs(lateral), 0.95)
             ),
             "maximum_absolute_m": float(np.max(np.abs(lateral))),
+        },
+        "original_csv_waypoint_distance": {
+            "metric": "unsigned distance to nearest selected-lap CSV waypoint",
+            "waypoint_count": len(original_waypoints),
+            "rms_m": rms(original_waypoint_distance),
+            "p95_m": float(
+                np.quantile(original_waypoint_distance, 0.95)
+            ),
+            "maximum_m": float(np.max(original_waypoint_distance)),
         },
         "yaw_error": {
             "rms_rad": rms(yaw_error),
@@ -153,14 +174,14 @@ def analyze(run_directory: Path) -> dict[str, object]:
         1.1 * float(np.max(np.abs(lateral))),
     )
     error_figure, error_axes = plt.subplots(
-        2,
+        3,
         1,
-        figsize=(12, 7),
+        figsize=(12, 10),
         sharex=True,
-        gridspec_kw={"height_ratios": (1.0, 1.35)},
+        gridspec_kw={"height_ratios": (1.0, 1.35, 1.1)},
     )
-    constraint_axis, detail_axis = error_axes
-    for axis in error_axes:
+    constraint_axis, detail_axis, csv_axis = error_axes
+    for axis in (constraint_axis, detail_axis):
         axis.plot(time_s, lateral, color="tab:blue", linewidth=1.2)
         axis.axhline(0.0, color="black", linewidth=0.7)
         axis.grid(True, alpha=0.3)
@@ -187,7 +208,24 @@ def analyze(run_directory: Path) -> dict[str, object]:
             summary["lateral_error"]["maximum_absolute_m"],
         )
     )
-    detail_axis.set_xlabel("time [s]")
+    csv_axis.plot(
+        time_s,
+        original_waypoint_distance,
+        color="tab:green",
+        linewidth=1.2,
+    )
+    csv_axis.axhline(0.0, color="black", linewidth=0.7)
+    csv_axis.grid(True, alpha=0.3)
+    csv_axis.set_ylabel("nearest-point distance [m]")
+    csv_axis.set_title(
+        "Original CSV waypoints: RMS {:.4f} m, p95 {:.4f} m, "
+        "maximum {:.4f} m".format(
+            summary["original_csv_waypoint_distance"]["rms_m"],
+            summary["original_csv_waypoint_distance"]["p95_m"],
+            summary["original_csv_waypoint_distance"]["maximum_m"],
+        )
+    )
+    csv_axis.set_xlabel("time [s]")
     error_figure.tight_layout()
     error_figure.savefig(
         run_directory / "cross_track_error.png",
