@@ -1,0 +1,17 @@
+period_s: 0.1
+
+# Frozen v1 baseline gains. Gazebo validation results remain separate.
+gains:
+  lateral_to_yaw_rad_per_m: 0.27
+  yaw_to_steering_rad_per_rad: 0.9
+  yaw_compensation_limit_deg: 30.0
+
+limits:
+  minimum_speed_command_mps: 0.0
+  maximum_speed_command_mps: 5.5
+  maximum_steering_command_rad: 0.3
+
+timing:
+  maximum_odometry_age_s: 0.12
+  command_delay_steps: 1
+  state_prediction_enabled: false

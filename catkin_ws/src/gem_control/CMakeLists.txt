@@ -18,7 +18,9 @@ catkin_package(
 
 catkin_install_python(PROGRAMS
   scripts/analyze_full_mpc_run.py
+  scripts/analyze_cascaded_p_run.py
   scripts/benchmark_full_mpc.py
+  scripts/run_cascaded_p.py
   scripts/run_full_mpc.py
   scripts/validate_reference_path.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -34,6 +36,7 @@ install(DIRECTORY
 
 if(CATKIN_ENABLE_TESTING)
   catkin_add_nosetests(test/test_full_mpc.py)
+  catkin_add_nosetests(test/test_cascaded_p.py)
   catkin_add_nosetests(test/test_learned_dynamics.py)
   catkin_add_nosetests(test/test_reference_path.py)
   catkin_add_nosetests(test/test_timing_compensation.py)

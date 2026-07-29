@@ -230,6 +230,29 @@ waypoint; the first two panels retain the signed smoothed-path error.
 
 ![Final cross-track error and assignment limit](results/mpc/simulator_h12_19p5_kmh/cross_track_error.png)
 
+## Extra Controller: Cascaded P
+
+The separate cascaded-P baseline uses the frozen `v1` gains and no learned
+model or optimizer. It intentionally buffers each command for one 100 ms
+control step without state prediction. The same commissioning, path,
+visualization, safety checks, logging, and stopping behavior are retained.
+
+Run its validated 19.5 km/h lap with:
+
+```bash
+roslaunch gem_control cascaded_p_sim.launch \
+  gui:=true use_rviz:=true \
+  reference_speed_mps:=5.4166666667 target_laps:=1.0 \
+  output_directory:=/workspace/results/cascaded_p/simulator_19p5_kmh
+```
+
+The completed lap achieved `0.0812 m` RMS and `0.2971 m` maximum absolute
+lateral error, while the maximum measured speed remained `19.76 km/h`.
+Implementation, timing, and validation details are in
+[`docs/cascaded_p.md`](docs/cascaded_p.md).
+
+![Cascaded-P validation](results/cascaded_p/simulator_19p5_kmh/validation.png)
+
 ## Status
 
 Docker environment, GEM simulator, uniform identification world, reusable CSV

@@ -1,3 +1,10 @@
+from gem_control.cascaded_p import (
+    CascadedPCommand,
+    CascadedPConfig,
+    CascadedPPathController,
+    OneStepCommandBuffer,
+    load_cascaded_p_config,
+)
 from gem_control.reference_path import (
     ClosedReferencePath,
     PathEvaluation,
@@ -19,7 +26,11 @@ from gem_control.tracking_errors import (
 )
 
 __all__ = [
+    "CascadedPCommand",
+    "CascadedPConfig",
+    "CascadedPPathController",
     "ClosedReferencePath",
+    "OneStepCommandBuffer",
     "PathEvaluation",
     "PathPreprocessingConfig",
     "PathPreprocessingDiagnostics",
@@ -29,6 +40,7 @@ __all__ = [
     "build_configured_reference_path",
     "build_reference_path",
     "load_reference_path_settings",
+    "load_cascaded_p_config",
     "resolve_package_file",
     "lateral_error",
     "lateral_error_symbolic",
