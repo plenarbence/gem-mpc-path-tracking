@@ -4,7 +4,7 @@
     "target_distance_m": 50.0,
     "requested_initial_lateral_error_m": 0.5,
     "requested_initial_yaw_error_deg": 40.0,
-    "progression_rate_estimate": "Five-sample moving average of the projected path-progress derivative",
+    "progression_rate_estimate": "Five-sample moving average of projected path progress differentiated on odometry timestamps",
     "settled_recovery_definition": "First continuous 1.0 s with |lateral error| <= 0.10 m and |yaw error| <= 5 deg"
   },
   "controllers": {
@@ -32,8 +32,8 @@
       },
       "maximum_speed_kmh": 12.704334371543869,
       "path_progression": {
-        "maximum_rate_kmh": 11.650757497821003,
-        "tracking_rmse_mps": 0.4980410733840737
+        "maximum_rate_kmh": 11.422311272373495,
+        "tracking_rmse_mps": 0.4938099867323268
       },
       "compute_time_ms": {
         "mean": 34.41655455557069,
@@ -66,8 +66,8 @@
       },
       "maximum_speed_kmh": 10.399066815614646,
       "path_progression": {
-        "maximum_rate_kmh": 10.603266822359645,
-        "tracking_rmse_mps": 0.5369242044515165
+        "maximum_rate_kmh": 10.39535962976439,
+        "tracking_rmse_mps": 0.5324312550314905
       },
       "compute_time_ms": {
         "mean": 0.5667224770804447,

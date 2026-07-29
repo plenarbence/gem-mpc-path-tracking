@@ -67,7 +67,9 @@ the initial `40 deg` yaw error requires approximately
 `10 / cos(40 deg) = 13.1 km/h` vehicle speed to obtain `10 km/h` progress
 along the path. The comparison plot therefore shows measured `ds/dt` against
 the requested progression instead of comparing vehicle speed to a false
-speed reference.
+speed reference. The derivative uses the matching odometry timestamps before
+a five-sample display average; command-publication timestamps are not used to
+differentiate odometry-based progress.
 
 Both completing controllers temporarily exceeded the assignment's
 `+/-1 m` lateral band during the initial transient. This does not affect the

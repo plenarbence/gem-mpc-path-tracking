@@ -70,9 +70,9 @@ def find_settled_index(
 
 
 def smoothed_progression_rate(
-    progress_m: np.ndarray, publish_time_s: np.ndarray
+    progress_m: np.ndarray, odometry_time_s: np.ndarray
 ) -> np.ndarray:
-    raw_rate = np.gradient(progress_m, publish_time_s)
+    raw_rate = np.gradient(progress_m, odometry_time_s)
     window_size = 5
     padding = window_size // 2
     padded = np.pad(raw_rate, (padding, padding), mode="edge")
@@ -93,7 +93,7 @@ def controller_metrics(
     elapsed = columns["elapsed_s"]
     progress = columns["progress_m"] - columns["progress_m"][0]
     progression_rate = smoothed_progression_rate(
-        columns["progress_m"], columns["publish_time_s"]
+        columns["progress_m"], columns["odometry_time_s"]
     )
     reference_progression = columns["reference_speed_mps"]
     lateral = columns["lateral_error_m"]
@@ -182,8 +182,8 @@ def analyze(root_directory: Path) -> dict[str, object]:
             "requested_initial_lateral_error_m": 0.5,
             "requested_initial_yaw_error_deg": 40.0,
             "progression_rate_estimate": (
-                "Five-sample moving average of the projected path-progress "
-                "derivative"
+                "Five-sample moving average of projected path progress "
+                "differentiated on odometry timestamps"
             ),
             "settled_recovery_definition": (
                 "First continuous 1.0 s with |lateral error| <= 0.10 m "
