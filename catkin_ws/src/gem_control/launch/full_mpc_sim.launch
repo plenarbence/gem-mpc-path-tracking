@@ -6,13 +6,20 @@
   <arg name="reference_speed_mps" default="2.0"/>
   <arg name="drive_duration_s" default="12.0"/>
   <arg name="stop_ramp_duration_s" default="3.0"/>
+  <arg name="stop_settling_timeout_s" default="4.0"/>
   <arg name="target_laps" default="0.0"/>
+  <arg
+    name="config_path"
+    default="$(find gem_control)/config/full_mpc.yaml"/>
   <arg name="initial_x_m" default="0.1277221954"/>
   <arg name="initial_y_m" default="-2.0034035920"/>
   <arg name="initial_z_m" default="0.5"/>
   <arg name="initial_yaw_rad" default="-0.0019451707"/>
   <arg name="maximum_lateral_error_m" default="0.8"/>
   <arg name="maximum_yaw_error_rad" default="0.7"/>
+  <arg
+    name="world_name"
+    default="$(find gem_sysid)/worlds/sysid_flat.world"/>
   <arg
     name="output_directory"
     default="/workspace/results/mpc/simulator_h12_run1"/>
@@ -21,6 +28,7 @@
     <arg name="gui" value="$(arg gui)"/>
     <arg name="use_rviz" value="false"/>
     <arg name="cmd_timeout" value="0.5"/>
+    <arg name="world_name" value="$(arg world_name)"/>
     <arg name="x" value="$(arg initial_x_m)"/>
     <arg name="y" value="$(arg initial_y_m)"/>
     <arg name="z" value="$(arg initial_z_m)"/>
@@ -88,9 +96,13 @@
     name="full_learned_mpc"
     output="screen"
     required="true">
+    <param name="config_path" value="$(arg config_path)"/>
     <param name="reference_speed_mps" value="$(arg reference_speed_mps)"/>
     <param name="drive_duration_s" value="$(arg drive_duration_s)"/>
     <param name="stop_ramp_duration_s" value="$(arg stop_ramp_duration_s)"/>
+    <param
+      name="stop_settling_timeout_s"
+      value="$(arg stop_settling_timeout_s)"/>
     <param name="target_laps" value="$(arg target_laps)"/>
     <param
       name="maximum_lateral_error_m"

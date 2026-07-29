@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This stress test compares all three controllers from the same deliberately
+This stress test compares both retained controllers from the same deliberately
 misaligned pose. It is kept separate from the nominal assignment lap results.
 No controller gains, weights, models, or horizons are changed for this test.
 
@@ -40,7 +40,7 @@ roslaunch gem_control initial_error_test.launch \
   controller:=cascaded_p
 ```
 
-Generate the common comparison after the three runs:
+Generate the common comparison after the two runs:
 
 ```bash
 rosrun gem_control analyze_initial_error_comparison.py \

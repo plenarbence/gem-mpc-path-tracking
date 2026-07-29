@@ -4,6 +4,9 @@
   <arg name="gui" default="true"/>
   <arg name="use_rviz" default="true"/>
   <arg name="cmd_timeout" default="1.0"/>
+  <arg
+    name="world_name"
+    default="$(find gem_sysid)/worlds/sysid_flat.world"/>
 
   <arg name="x" default="0.0"/>
   <arg name="y" default="0.0"/>
@@ -32,7 +35,7 @@
     type="gzserver"
     output="screen"
     required="true"
-    args="$(arg pause_arg) -e ode $(find gem_sysid)/worlds/sysid_flat.world">
+    args="$(arg pause_arg) -e ode $(arg world_name)">
     <env name="GALLIUM_DRIVER" value="llvmpipe"/>
     <env name="LIBGL_ALWAYS_SOFTWARE" value="1"/>
     <env

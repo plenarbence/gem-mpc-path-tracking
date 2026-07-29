@@ -1,0 +1,29 @@
+{
+  "termination_reason": "completed_laps",
+  "horizon_steps": 8,
+  "cycle_count": 1650,
+  "reference_speed_mps": 5.4166666667,
+  "drive_duration_s": 12.0,
+  "stop_ramp_duration_s": 3.0,
+  "target_laps": 1.0,
+  "path_length_m": 831.7180087726769,
+  "initial_progress_m": -0.010523161662464834,
+  "target_progress_m": 831.7074856110144,
+  "last_logged_progress_m": 831.6606261044393,
+  "final_progress_m": 831.7178135434644,
+  "achieved_laps": 1.0000124175890641,
+  "accepted_solve_count": 1647,
+  "deadline_miss_count": 3,
+  "mean_solver_time_s": 0.03670248280981799,
+  "p95_solver_time_s": 0.062018402898320335,
+  "maximum_solver_time_s": 0.08007820999773685,
+  "mean_total_compute_time_s": 0.04028847629026683,
+  "p95_total_compute_time_s": 0.06597690590169804,
+  "maximum_total_compute_time_s": 0.08553387600113638,
+  "maximum_absolute_lateral_error_m": 0.14910782732455988,
+  "stop": {
+    "stationary": false,
+    "settling_duration_s": 8.1,
+    "final_speed_mps": 0.16216132091251284
+  }
+}

@@ -84,6 +84,9 @@ class FullMpcExecutionNode:
         self.stop_ramp_duration_s = float(
             rospy.get_param("~stop_ramp_duration_s", 3.0)
         )
+        self.stop_settling_timeout_s = float(
+            rospy.get_param("~stop_settling_timeout_s", 4.0)
+        )
         self.target_laps = float(
             rospy.get_param("~target_laps", 0.0)
         )
@@ -240,6 +243,8 @@ class FullMpcExecutionNode:
             raise ValueError("drive_duration_s must be positive")
         if self.stop_ramp_duration_s <= 0.0:
             raise ValueError("stop_ramp_duration_s must be positive")
+        if self.stop_settling_timeout_s <= 0.0:
+            raise ValueError("stop_settling_timeout_s must be positive")
         if not 0.0 <= self.target_laps <= 10.0:
             raise ValueError("target_laps must be in [0, 10]")
         if self.maximum_lateral_error_m <= 0.0:
@@ -582,7 +587,9 @@ class FullMpcExecutionNode:
                 break
             next_tick += rospy.Duration(self.config.period_s)
 
-        stop_result = self.hold_stop_until_stationary()
+        stop_result = self.hold_stop_until_stationary(
+            self.stop_settling_timeout_s
+        )
         self.publish_stop()
         self.write_results(
             rows,

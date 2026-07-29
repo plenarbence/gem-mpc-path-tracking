@@ -16,11 +16,25 @@ POLARIS GEM e2 simulator.
 | Cross-track error within `1 m` | Final lap: `0.0543 m` maximum absolute smoothed-path error |
 | Dockerfile and build/run instructions | Included below |
 | Saved system-identification and cross-track images | Included and embedded below |
-| Demonstration video | Not yet recorded; required recording contents are listed below |
+| Demonstration video | [`final_lap_demo.mp4`](results/mpc/final_lap/final_lap_demo.mp4) |
 
 The cascaded-P controller and initial-error recovery test are additional
 validation work. They are documented after the required learned-model MPC but
 are not assignment requirements.
+
+## Repository Guide
+
+| Location | Contents |
+| --- | --- |
+| `catkin_ws/src/gem_sysid/` | Excitation profiles, timing commissioning, data collection, synchronization, and model training |
+| `catkin_ws/src/gem_control/` | Smoothed CSV reference path, learned-model MPC, cascaded-P extension, launch files, and analysis tools |
+| `catkin_ws/src/gem_control/models/selected/` | Frozen portable weights and scalers used by the MPC |
+| `data/processed/` | Synchronized 10 Hz train, validation, and held-out test datasets |
+| `docs/` | Detailed design decisions, equations, timing, experiments, and reproduction commands |
+| `results/model_identification/` | Model comparisons, predictions, metrics, and assignment RMSE image |
+| `results/reference_path/` | CSV-to-spline validation and waypoint smoothing evidence |
+| `results/mpc/simulator_h12_19p5_kmh/` | Primary horizon-12 assignment-limit lap |
+| `results/mpc/final_lap/` | Recorded visual demonstration, logs, metrics, and final plots |
 
 ## Development Environment
 
@@ -111,7 +125,9 @@ roslaunch gem_sysid step0_collect.launch \
 Before every profile, the excitation node keeps the vehicle stopped and
 commissions the 10 Hz Ackermann publication phase against all six 30 Hz lower
 controller command topics. It targets a 5 ms handoff delay, returns steering to
-zero, then holds the resulting phase fixed for the complete run.
+zero, then holds the resulting phase fixed for the complete run. The measured
+takeover mechanism and commissioning acceptance rules are documented in
+[`docs/system_identification_notes.md`](docs/system_identification_notes.md).
 
 Generate the deterministic identification profiles:
 
@@ -129,7 +145,9 @@ The runner resets the vehicle, commissions the Ackermann phase, records a bag,
 and produces a timing and signal-quality report for every profile. Use
 `--split train` or `--profile train_speed_multistep` to collect a subset.
 Profile definitions are listed in
-`catkin_ws/src/gem_sysid/profiles/identification/manifest.csv`.
+`catkin_ws/src/gem_sysid/profiles/identification/manifest.csv`; their purpose,
+split, and collection sequence are documented in
+[`docs/identification_profile_suite.md`](docs/identification_profile_suite.md).
 
 Prepare the synchronized 10 Hz datasets:
 
@@ -141,7 +159,13 @@ For each command, the synchronization anchor is its stamped publication time
 plus that run's commissioned delay. Position, velocity, yaw, and yaw rate are
 linearly interpolated from the odometry header timestamps to that anchor. The
 generated train, validation, and test CSV files are written to
-`data/processed/`.
+`data/processed/`. Exact timestamp equations, fields, and interpolation rules
+are in [`docs/data_preparation.md`](docs/data_preparation.md).
+
+Raw ROS bags are intentionally excluded from Git because they are large
+runtime captures. The deterministic profile definitions and collection runner
+recreate them, while the processed train/validation/test CSVs required to
+reproduce model training are included in the repository.
 
 Compare Euler and midpoint Euler pose integration on the long test profile:
 
@@ -151,7 +175,9 @@ rosrun gem_sysid compare_integration_methods.py
 
 This comparison uses only odometry longitudinal speed and odometry yaw rate.
 Results are written to
-`results/model_identification/integration_comparison/`.
+`results/model_identification/integration_comparison/`; the equations and
+comparison metrics are in
+[`docs/integration_comparison.md`](docs/integration_comparison.md).
 
 Train and evaluate the neural identification grid:
 
@@ -214,6 +240,8 @@ Validation evidence is written to `results/reference_path/`; the method and
 interface are documented in
 [`docs/reference_path.md`](docs/reference_path.md).
 
+![Original CSV waypoints versus smoothed parameterized path](results/reference_path/waypoint_smoothing_difference.png)
+
 ## Full Learned MPC
 
 Benchmark the direct-command nonlinear MPC:
@@ -223,10 +251,27 @@ rosrun gem_control benchmark_full_mpc.py
 ```
 
 The controller uses the frozen selected H2 neural model, direct Ackermann speed
-and steering decisions, midpoint Euler pose propagation, and the tuned path
-tracking costs from `v1`. Its causal timing preparation aligns pre-publication
+and steering decisions, midpoint Euler pose propagation, and the documented
+tuned path-tracking costs. Its causal timing preparation aligns pre-publication
 odometry to the commissioned `+5 ms` application anchor and predicts one
 controller period ahead before optimization.
+
+At each prediction stage, the objective is
+
+\[
+8e_y^2 + 28.2682787(1-\cos(e_\psi))
++2.4(\dot{s}-\dot{s}_{ref})^2
++0.25908285(\Delta\delta/0.06)^2
++0.2061432(\Delta v_{cmd}/0.2)^2.
+\]
+
+The learned dynamics and orthogonal path projection are equality constraints.
+Path progress is monotonic, speed commands are constrained to `0..5.5 m/s`,
+steering commands to `-0.3..0.3 rad`, and predicted speed and yaw rate remain
+inside the identified operating domain. The shifted previous solution is used
+as the next command warm start; states are re-rolled causally from the latest
+delay-compensated measurement. Runtime parameters and weights are in
+[`full_mpc.yaml`](catkin_ws/src/gem_control/config/full_mpc.yaml).
 
 Horizon 12 is the default: all 20 offline operational solves passed with
 `66.8 ms` complete-computation p95. Horizon 15 exceeded the `80 ms` criterion.
@@ -268,10 +313,33 @@ waypoint; the first two panels retain the signed smoothed-path error.
 
 ![Final cross-track error and assignment limit](results/mpc/simulator_h12_19p5_kmh/cross_track_error.png)
 
+For the recorded demonstration, use the dedicated visual-world wrapper:
+
+```bash
+roslaunch gem_control final_lap_demo.launch
+
+rosrun gem_control analyze_full_mpc_run.py \
+  /workspace/results/mpc/final_lap
+```
+
+This wrapper opens the original road world, Gazebo, and RViz and writes to
+`results/mpc/final_lap/`. It uses an 8-step horizon because simultaneous
+Gazebo, RViz, noVNC, and screen recording made the 10-step visual run exceed
+the `80 ms` budget three times consecutively. The learned model, objective,
+constraints, 10 Hz controller period, and commissioned timing are unchanged.
+
+The recorded run completed `1.0000` lap. Its smoothed-path lateral error was
+`0.02036 m` RMS and `0.14911 m` maximum. Maximum measured speed was
+`19.803 km/h`, and maximum command was `19.800 km/h`. Complete computation was
+`40.29 ms` mean and `65.98 ms` p95. Three isolated deadline misses held the
+previous feasible command and did not interrupt the lap.
+
+![Recorded final-lap cross-track error](results/mpc/final_lap/cross_track_error.png)
+
 ## Extra Controller: Cascaded P
 
-The separate cascaded-P baseline uses the frozen `v1` gains and no learned
-model or optimizer. It intentionally buffers each command for one 100 ms
+The separate cascaded-P baseline uses fixed, previously tuned gains and no
+learned model or optimizer. It intentionally buffers each command for one 100 ms
 control step without state prediction. The same commissioning, path,
 visualization, safety checks, logging, and stopping behavior are retained.
 
@@ -312,14 +380,18 @@ Commands, exact metrics, and interpretation are documented in
 
 ## Demonstration Video
 
-The demonstration video is the only assignment deliverable not yet completed.
-The final recording must:
+The completed demonstration is
+[`results/mpc/final_lap/final_lap_demo.mp4`](results/mpc/final_lap/final_lap_demo.mp4).
+It starts `final_lap_demo.launch` from a terminal, shows the reference and
+vehicle progress in RViz, shows the vehicle completing the road in Gazebo, and
+ends with:
 
-1. Start `full_mpc_sim.launch` from a terminal.
-2. Show the vehicle completing the path in Gazebo.
-3. Show RViz displaying the CSV path and vehicle progress.
-4. End on the selected-model input/output RMSE image.
-5. End on the final cross-track-error image.
+1. The held-out system-identification inputs, measured/predicted outputs, and
+   RMSE image.
+2. The final cross-track error over time with the assignment's `+/-1 m` limit.
+
+The compressed H.264/AAC recording is `1920x1146`, `30 FPS`, `5:14`, and
+approximately `78 MB`.
 
 ## Status
 
@@ -331,4 +403,5 @@ the shared smoothed reference-path layer are complete. The offline full learned
 MPC core, delayed-state preparation, warm start, horizon selection, guarded ROS
 execution, solver deadline handling, and closed-loop Gazebo validation are
 implemented. The cascaded-P extension is implemented and validated as a
-separate controller.
+separate controller. All assignment code, evidence images, and the
+demonstration video are included in this repository.

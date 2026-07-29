@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="run_name" default="final_lap"/>
+  <arg
+    name="output_directory"
+    default="/workspace/results/mpc/$(arg run_name)"/>
+
+  <!-- Assignment demonstration: original visual track and fixed final setup. -->
+  <include file="$(find gem_control)/launch/full_mpc_sim.launch">
+    <arg name="gui" value="true"/>
+    <arg name="use_rviz" value="true"/>
+    <arg name="record_bag" value="false"/>
+    <arg
+      name="config_path"
+      value="$(find gem_control)/config/full_mpc_demo_h8.yaml"/>
+    <arg name="reference_speed_mps" value="5.4166666667"/>
+    <arg name="target_laps" value="1.0"/>
+    <arg name="stop_settling_timeout_s" value="8.0"/>
+    <arg
+      name="world_name"
+      value="$(find gem_gazebo)/worlds/simple_track_green.world"/>
+    <arg name="output_directory" value="$(arg output_directory)"/>
+  </include>
+</launch>

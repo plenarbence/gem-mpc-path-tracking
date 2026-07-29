@@ -11,7 +11,7 @@ It does not use the learned dynamics model or an optimizer.
 
 ## Control Law
 
-Positive lateral error is left of the path tangent. The frozen `v1` gains are
+Positive lateral error is left of the path tangent. The fixed baseline gains are
 
 ```text
 K_y   = 0.27 rad/m

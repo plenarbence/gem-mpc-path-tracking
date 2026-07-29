@@ -59,7 +59,7 @@ The decision variables are the state trajectory, direct speed and steering
 commands, and continuous path progress. Dynamics and orthogonal path
 projection are hard equalities; progress is constrained to be monotonic.
 
-The cost retains the tuned `v1` terms:
+The cost uses the following tuned terms:
 
 ```text
 8.0        * lateral_error^2
@@ -174,3 +174,28 @@ required and horizon 12 remains selected. Commissioned takeover delay was
 Ackermann speed command was `19.800 km/h`, satisfying the assignment's
 `20 km/h` limit. The vehicle stopped stationary in `1.60 s`. Evidence is
 stored in `results/mpc/simulator_h12_19p5_kmh/`.
+
+## Visual Demonstration Run
+
+The assignment video uses:
+
+```bash
+roslaunch gem_control final_lap_demo.launch
+```
+
+This dedicated wrapper selects the simulator's original
+`simple_track_green.world`, starts both Gazebo and RViz, disables bag recording,
+and writes the run to `results/mpc/final_lap/`. The GUI, noVNC, and Windows
+screen recorder add enough computation load that a 10-step attempt stopped
+after three consecutive `80 ms` deadline misses. The visual wrapper therefore
+uses `full_mpc_demo_h8.yaml`. Only the horizon changes: the learned dynamics,
+costs, constraints, 10 Hz period, commissioning, delayed-state preparation,
+and fallback behavior are identical to the primary controller.
+
+The recorded horizon-8 run completed one lap in 1,650 cycles. Lateral error was
+`0.02036 m` RMS, `0.03759 m` p95 absolute, and `0.14911 m` maximum. Maximum
+measured speed was `19.803 km/h`; maximum Ackermann speed command was
+`19.800 km/h`. Complete computation was `40.29 ms` mean, `65.98 ms` p95, and
+`85.53 ms` maximum. Three isolated deadline misses held the previous feasible
+command. The machine-readable evidence, plots, and video are in
+`results/mpc/final_lap/`.

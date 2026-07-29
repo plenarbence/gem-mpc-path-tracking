@@ -1,8 +1,7 @@
 # Reference Path
 
-The `gem_control` package provides the common closed reference path used by
-future path-tracking controllers. It ports the validated path processing from
-`v1` without depending on the old project tree.
+The `gem_control` package provides the common, self-contained closed reference
+path used by all path-tracking controllers.
 
 ## Source And Configuration
 

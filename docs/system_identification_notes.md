@@ -74,8 +74,10 @@ fixed-phase profile commands measured 4.88 ms to the next lower update. This is
 an observed receipt-time estimate because the lower `Float64` commands have no
 headers or timestamps.
 
-The commissioned full Step 0 run is stored in
-`data/step0_commissioned_2026-07-29-08-14-26.bag`. Commissioning measured
+The commissioned full Step 0 run was recorded locally as
+`data/step0_commissioned_2026-07-29-08-14-26.bag`. Raw bags are ignored by Git
+because of their size; the tracked profiles reproduce them and the processed
+CSV datasets required for training are included. Commissioning measured
 4.85 ms in the excitation node. During the fixed-phase profile, rosbag measured
 the mean receipt time of all six lower topics at 5.98 ms (5.00 ms minimum,
 6.83 ms maximum, 6.33 ms p95). The approximately 1 ms difference is subscriber

@@ -42,6 +42,7 @@ RUN apt-get update \
         novnc \
         websockify \
         x11vnc \
+        xterm \
         xvfb \
     && rm -rf /var/lib/apt/lists/*
 
