@@ -1,0 +1,110 @@
+Panels:
+  - Class: rviz/Displays
+    Name: Displays
+  - Class: rviz/Views
+    Name: Views
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Alpha: 0.35
+      Cell Size: 10
+      Class: rviz/Grid
+      Color: 120; 120; 120
+      Enabled: true
+      Line Style:
+        Line Width: 0.03
+        Value: Lines
+      Name: Ground grid
+      Offset:
+        X: 0
+        Y: 100
+        Z: 0
+      Plane: XY
+      Plane Cell Count: 40
+      Reference Frame: world
+      Value: true
+    - Alpha: 1
+      Class: rviz/RobotModel
+      Collision Enabled: false
+      Enabled: true
+      Name: GEM vehicle
+      Robot Description: robot_description
+      TF Prefix: ""
+      Update Interval: 0
+      Value: true
+      Visual Enabled: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 45; 145; 255
+      Enabled: true
+      Head Diameter: 0.3
+      Head Length: 0.2
+      Length: 0.3
+      Line Style: Billboards
+      Line Width: 0.25
+      Name: CSV reference
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0.05
+      Pose Color: 45; 145; 255
+      Pose Style: None
+      Radius: 0.03
+      Shaft Diameter: 0.1
+      Shaft Length: 0.1
+      Topic: /gem_control/reference_path
+      Unreliable: false
+      Value: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 255; 80; 55
+      Enabled: true
+      Head Diameter: 1
+      Head Length: 2
+      Length: 0.3
+      Line Style: Billboards
+      Line Width: 1
+      Name: Vehicle progress
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0.2
+      Pose Color: 255; 80; 55
+      Pose Style: Arrows
+      Radius: 0.03
+      Shaft Diameter: 0.6
+      Shaft Length: 4
+      Topic: /gem_control/vehicle_path
+      Unreliable: false
+      Value: true
+  Enabled: true
+  Global Options:
+    Background Color: 28; 30; 34
+    Default Light: true
+    Fixed Frame: world
+    Frame Rate: 30
+  Name: root
+  Tools:
+    - Class: rviz/Interact
+    - Class: rviz/MoveCamera
+    - Class: rviz/Select
+    - Class: rviz/FocusCamera
+  Value: true
+  Views:
+    Current:
+      Angle: 0
+      Class: rviz/TopDownOrtho
+      Name: Full track
+      Near Clip Distance: 0.01
+      Scale: 3.2
+      Target Frame: world
+      Value: TopDownOrtho (rviz)
+      X: 0
+      Y: 100
+Window Geometry:
+  Height: 850
+  Width: 1000
+  X: 570
+  Y: 25

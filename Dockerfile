@@ -10,7 +10,10 @@ RUN apt-get update \
         curl \
         git \
         python3-catkin-tools \
+        python3-numpy \
         python3-pip \
+        python3-scipy \
+        python3-yaml \
     && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update \
@@ -53,6 +56,12 @@ RUN python3 -m pip install --no-cache-dir \
     && python3 -m pip install --no-cache-dir --no-deps \
     --index-url https://download.pytorch.org/whl/cpu \
     torch==2.4.1
+
+# CasADi has no Ubuntu Focal rosdep key. Install the explicitly pinned Python
+# dependency without upgrading Ubuntu's ROS-compatible NumPy.
+COPY requirements-control.txt /tmp/requirements-control.txt
+RUN python3 -m pip install --no-cache-dir --no-deps \
+    -r /tmp/requirements-control.txt
 
 COPY --chmod=755 scripts/start-gui.sh /usr/local/bin/start-gui
 

@@ -7,6 +7,7 @@ services:
     working_dir: /workspace
     environment:
       DISPLAY: ":1"
+      DISABLE_ROS1_EOL_WARNINGS: "1"
       SCREEN_GEOMETRY: 1600x900x24
     ports:
       - "127.0.0.1:6080:6080"

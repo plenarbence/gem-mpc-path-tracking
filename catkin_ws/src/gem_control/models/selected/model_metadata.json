@@ -1,0 +1,37 @@
+{
+  "candidate_name": "mlp_h2_state_one_step",
+  "architecture": "mlp",
+  "objective": "state_one_step",
+  "history_depth": 2,
+  "feature_order": [
+    "speed_k",
+    "yaw_rate_k",
+    "speed_command_k",
+    "steering_command_k",
+    "speed_k-1",
+    "yaw_rate_k-1",
+    "speed_command_k-1",
+    "steering_command_k-1",
+    "speed_k-2",
+    "yaw_rate_k-2",
+    "speed_command_k-2",
+    "steering_command_k-2"
+  ],
+  "outputs": [
+    "delta_speed",
+    "delta_yaw_rate"
+  ],
+  "hidden_width": 32,
+  "hidden_layers": 2,
+  "activation": "tanh",
+  "training": {
+    "learning_rate": 0.001,
+    "batch_size": 128,
+    "max_epochs": 150,
+    "early_stopping_patience": 20,
+    "weight_decay": 1e-05,
+    "gradient_clip_norm": 1.0,
+    "minimum_relative_improvement": 1e-05
+  },
+  "scalers_file": "scalers.json"
+}

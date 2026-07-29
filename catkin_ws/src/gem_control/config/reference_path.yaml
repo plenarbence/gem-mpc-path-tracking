@@ -1,0 +1,16 @@
+waypoint:
+  package: gem_pure_pursuit_sim
+  relative_path: waypoints/wps.csv
+
+preprocessing:
+  duplicate_distance_m: 0.02
+  startup_motion_step_m: 0.05
+  minimum_lap_points: 500
+  closure_search_tail_points: 160
+  blend_length_m: 8.0
+  dense_samples: 20000
+  projection_samples: 5000
+  smoothing_factor: 0.5
+
+casadi:
+  sample_count: 5000

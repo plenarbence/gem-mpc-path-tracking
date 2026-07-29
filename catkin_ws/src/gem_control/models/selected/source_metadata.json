@@ -1,0 +1,12 @@
+{
+  "selection_file": "results/model_identification/neural_experiments/selection.json",
+  "candidate_name": "mlp_h2_state_one_step",
+  "seed": 89,
+  "source_run_directory": "results/model_identification/neural_experiments/runs/mlp_h2_state_one_step/seed_89",
+  "sha256": {
+    "model_metadata.json": "c017107532e407591695d865a581b822119daab64914e06f39236ff3f6bd777d",
+    "scalers.json": "f0142de114f2eaca293ed7a5716f7465a7c33274c6b680959534b101fbb419b2",
+    "speed_model_weights.json": "6f6eeb14e70f3fe6fe41d18bca5df5d1d05db224bca79ba8176eb1e820786086",
+    "yaw_rate_model_weights.json": "ca89f3bd9c658ff7ccaeac30ecf0735ad59b9734bcb4ff047a06bb7b87cd6550"
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "reference_speed_mps": 3.0,
+  "start_progress_m": 40.0,
+  "horizons": [
+    {
+      "horizon_steps": 20,
+      "solve_count": 20,
+      "solver_construction_time_s": 0.574460691997956,
+      "stationary_warmup_solve_times_s": [
+        0.09148576600273373,
+        0.2229467739998654,
+        0.21800012699895888
+      ],
+      "stationary_warmup_accepted_count": 3,
+      "accepted_solve_count": 0,
+      "deadline_miss_count": 17,
+      "mean_total_compute_time_s": 0.08753692389964271,
+      "p95_total_compute_time_s": 0.09091563464990031,
+      "maximum_total_compute_time_s": 0.0910226550004154,
+      "computation_budget_s": 0.08
+    },
+    {
+      "horizon_steps": 15,
+      "solve_count": 20,
+      "solver_construction_time_s": 0.22734184699947946,
+      "stationary_warmup_solve_times_s": [
+        0.10154499200143619,
+        0.14745578900328837,
+        0.14930966400061152
+      ],
+      "stationary_warmup_accepted_count": 3,
+      "accepted_solve_count": 0,
+      "deadline_miss_count": 16,
+      "mean_total_compute_time_s": 0.0832375004009009,
+      "p95_total_compute_time_s": 0.08667343459983386,
+      "maximum_total_compute_time_s": 0.0873974599999201,
+      "computation_budget_s": 0.08
+    },
+    {
+      "horizon_steps": 12,
+      "solve_count": 20,
+      "solver_construction_time_s": 0.17773183400277048,
+      "stationary_warmup_solve_times_s": [
+        0.10428688500178396,
+        0.12115075299880118,
+        0.1270867460007139
+      ],
+      "stationary_warmup_accepted_count": 3,
+      "accepted_solve_count": 20,
+      "deadline_miss_count": 0,
+      "mean_total_compute_time_s": 0.04771647049947205,
+      "p95_total_compute_time_s": 0.0668441076999443,
+      "maximum_total_compute_time_s": 0.06706281099832268,
+      "computation_budget_s": 0.08
+    },
+    {
+      "horizon_steps": 10,
+      "solve_count": 20,
+      "solver_construction_time_s": 0.15187931900072726,
+      "stationary_warmup_solve_times_s": [
+        0.08348667999962345,
+        0.08023658100137254,
+        0.08092030899933889
+      ],
+      "stationary_warmup_accepted_count": 3,
+      "accepted_solve_count": 20,
+      "deadline_miss_count": 0,
+      "mean_total_compute_time_s": 0.041305969449967964,
+      "p95_total_compute_time_s": 0.0567548420483945,
+      "maximum_total_compute_time_s": 0.06362301999979536,
+      "computation_budget_s": 0.08
+    }
+  ]
+}

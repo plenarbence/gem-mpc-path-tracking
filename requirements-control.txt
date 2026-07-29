@@ -1,0 +1,2 @@
+# CasADi is unavailable as an Ubuntu 20.04 rosdep key.
+casadi==3.7.2

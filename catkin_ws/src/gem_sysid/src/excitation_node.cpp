@@ -404,13 +404,19 @@ CommissioningResult commissionCommandPhase(
   ros::Time next_publish_time =
       baseline_batch.center_time +
       ros::Duration(sample_period_s - target_delay_s);
-  double phase_correction_s = 0.0;
   std::vector<double> delays_ms;
   delays_ms.reserve(static_cast<std::size_t>(trial_count));
+  const double maximum_valid_delay_ms =
+      1000.0 * target_delay_s + 5.0;
+  const int maximum_attempt_count = 3 * trial_count;
 
-  for (int trial = 0; trial < trial_count; ++trial) {
+  for (
+      int attempt = 0;
+      attempt < maximum_attempt_count &&
+      static_cast<int>(delays_ms.size()) < trial_count;
+      ++attempt) {
     const double steering =
-        (trial % 2 == 0) ? marker_steering_rad : -marker_steering_rad;
+        (attempt % 2 == 0) ? marker_steering_rad : -marker_steering_rad;
     sleepUntil(next_publish_time);
     if (!ros::ok()) {
       throw std::runtime_error("Commissioning interrupted");
@@ -430,23 +436,28 @@ CommissioningResult commissionCommandPhase(
 
     const double delay_ms =
         1000.0 * (takeover_batch.center_time - publish_time).toSec();
-    delays_ms.push_back(delay_ms);
-    ROS_INFO(
-        "Commissioning trial %d/%d: lower-batch delay %.3f ms",
-        trial + 1,
-        trial_count,
-        delay_ms);
+    if (delay_ms >= 0.0 && delay_ms <= maximum_valid_delay_ms) {
+      delays_ms.push_back(delay_ms);
+      ROS_INFO(
+          "Commissioning trial %zu/%d: lower-batch delay %.3f ms",
+          delays_ms.size(),
+          trial_count,
+          delay_ms);
+    } else {
+      ROS_WARN(
+          "Discarding commissioning attempt %d: missed lower-controller "
+          "boundary (%.3f ms)",
+          attempt + 1,
+          delay_ms);
+    }
 
-    const double delay_error_s = delay_ms / 1000.0 - target_delay_s;
-    phase_correction_s = std::max(
-        -target_delay_s,
-        std::min(
-            target_delay_s,
-            phase_correction_s + 0.5 * delay_error_s));
     next_publish_time =
         takeover_batch.center_time +
-        ros::Duration(
-            sample_period_s - target_delay_s + phase_correction_s);
+        ros::Duration(sample_period_s - target_delay_s);
+  }
+  if (static_cast<int>(delays_ms.size()) < trial_count) {
+    throw std::runtime_error(
+        "Commissioning could not collect enough valid phase samples");
   }
 
   sleepUntil(next_publish_time);
@@ -470,21 +481,23 @@ CommissioningResult commissionCommandPhase(
     maximum_ms = std::max(maximum_ms, delay_ms);
   }
   const double mean_ms = sum_ms / static_cast<double>(delays_ms.size());
+  const double target_ms = 1000.0 * target_delay_s;
   ROS_INFO(
       "Commissioning complete: mean %.3f ms, min %.3f ms, max %.3f ms "
       "(target %.3f ms)",
       mean_ms,
       minimum_ms,
       maximum_ms,
-      1000.0 * target_delay_s);
-  ROS_INFO(
-      "Fixed 10 Hz phase correction: %.3f ms",
-      1000.0 * phase_correction_s);
+      target_ms);
+  if (
+      std::abs(mean_ms - target_ms) > 2.0) {
+    throw std::runtime_error(
+        "Commissioning delays are not stable around the target");
+  }
 
   return CommissioningResult{
       zero_batch.center_time +
-          ros::Duration(
-              sample_period_s - target_delay_s + phase_correction_s),
+          ros::Duration(sample_period_s - target_delay_s),
       mean_ms};
 }
 

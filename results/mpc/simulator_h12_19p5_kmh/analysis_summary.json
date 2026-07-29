@@ -1,0 +1,29 @@
+{
+  "termination_reason": "completed_laps",
+  "horizon_steps": 12,
+  "cycle_count": 1648,
+  "progress_travelled_m": 831.6776486264548,
+  "lateral_error": {
+    "rms_m": 0.007758433650231073,
+    "p95_absolute_m": 0.013006456299728124,
+    "maximum_absolute_m": 0.054257803475657236
+  },
+  "yaw_error": {
+    "rms_rad": 0.0032199600764468684,
+    "maximum_absolute_rad": 0.027426221347476964
+  },
+  "timing": {
+    "mean_total_compute_ms": 28.492647870218242,
+    "p95_total_compute_ms": 36.62900550043559,
+    "maximum_total_compute_ms": 76.70897700154455,
+    "deadline_miss_count": 0,
+    "mean_publish_interval_ms": 99.99999999999999,
+    "p95_absolute_publish_interval_error_ms": 2.273181642920008e-11
+  },
+  "commissioned_delay_ms": 4.5,
+  "stop": {
+    "stationary": true,
+    "settling_duration_s": 1.6,
+    "final_speed_mps": 0.06556317130008796
+  }
+}

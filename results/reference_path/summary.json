@@ -1,0 +1,72 @@
+{
+  "path_length_m": 831.7180087726769,
+  "smoothing_factor": 0.5,
+  "preprocessing": {
+    "source_csv": "package://gem_pure_pursuit_sim/waypoints/wps.csv",
+    "raw_point_count": 3822,
+    "cleaned_point_count": 3168,
+    "lap_point_count": 3151,
+    "first_lap_raw_index": 662,
+    "last_lap_raw_index": 3812,
+    "closure_error_before_m": 0.2724153249139996,
+    "closure_error_after_m": 0.0,
+    "blend_start_lap_index": 3127,
+    "blend_end_lap_index": 3150,
+    "blend_length_m": 8.0,
+    "maximum_closure_correction_m": 0.2724153249139996
+  },
+  "seam": {
+    "seam_position_gap_m": 0.0016633790885783094,
+    "seam_tangent_angle_gap_rad": 1.7055936450944548e-05,
+    "seam_first_derivative_gap": 0.0745000983750696,
+    "seam_curvature_gap_1pm": 2.2046564376668187e-05,
+    "parameter_start": 0.0,
+    "parameter_end": 0.9996418923678817,
+    "parameter_period": 0.9996418923678817,
+    "epsilon_s": 0.0008317180087726768
+  },
+  "casadi_parity": {
+    "sample_count": 1200,
+    "maximum_position_difference_m": 1.034267202077268e-06,
+    "mean_position_difference_m": 4.107392014741377e-09,
+    "maximum_yaw_difference_rad": 2.3802824659501663e-05,
+    "maximum_curvature_difference_1pm": 0.00040830404235797906,
+    "mean_curvature_difference_1pm": 1.6582470957535712e-06
+  },
+  "waypoint_difference": {
+    "all_original_csv_rows": {
+      "sample_count": 3822,
+      "mean_error_m": 0.008697445092093876,
+      "rmse_error_m": 0.01943136194250074,
+      "p95_error_m": 0.02118684655470177,
+      "maximum_error_m": 0.2429506343209118
+    },
+    "selected_one_lap_row_range": {
+      "sample_count": 3151,
+      "mean_error_m": 0.009250991663116902,
+      "rmse_error_m": 0.017264125944621452,
+      "p95_error_m": 0.022216511948801452,
+      "maximum_error_m": 0.2429506343209118
+    },
+    "maximum_one_lap_error_csv_row": 3811,
+    "maximum_one_lap_error_projected_s_m": 831.6390825767687
+  },
+  "validation_limits": {
+    "seam_position_gap_m": 0.01,
+    "seam_tangent_angle_gap_rad": 0.001,
+    "seam_curvature_gap_1pm": 0.001,
+    "casadi_position_difference_m": 0.0001,
+    "casadi_yaw_difference_rad": 0.001,
+    "casadi_curvature_difference_1pm": 0.001
+  },
+  "checks": {
+    "seam_position": true,
+    "seam_tangent": true,
+    "seam_curvature": true,
+    "casadi_position": true,
+    "casadi_yaw": true,
+    "casadi_curvature": true
+  },
+  "passed": true,
+  "sample_count": 5001
+}

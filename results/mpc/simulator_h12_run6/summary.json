@@ -1,0 +1,22 @@
+{
+  "termination_reason": "completed",
+  "horizon_steps": 12,
+  "cycle_count": 151,
+  "reference_speed_mps": 2.0,
+  "drive_duration_s": 12.0,
+  "stop_ramp_duration_s": 3.0,
+  "accepted_solve_count": 149,
+  "deadline_miss_count": 2,
+  "mean_solver_time_s": 0.03305171028494936,
+  "p95_solver_time_s": 0.06838769800197042,
+  "maximum_solver_time_s": 0.07700212200143142,
+  "mean_total_compute_time_s": 0.03842307407303331,
+  "p95_total_compute_time_s": 0.07467689150143997,
+  "maximum_total_compute_time_s": 0.08372902400151361,
+  "maximum_absolute_lateral_error_m": 0.025680853870831105,
+  "stop": {
+    "stationary": true,
+    "settling_duration_s": 2.001,
+    "final_speed_mps": 0.06489781994059872
+  }
+}

@@ -1,0 +1,33 @@
+period_s: 0.1
+horizon_steps: 12
+computation_budget_s: 0.08
+ipopt:
+  cpu_limit_s: 0.065
+  max_iterations: 60
+  tolerance: 0.0001
+  acceptable_tolerance: 0.001
+reference_speed_mps: 5.0
+wheelbase_m: 1.75
+timing:
+  commissioned_takeover_delay_s: 0.005
+  maximum_odometry_age_s: 0.12
+model_limits:
+  minimum_speed_command_mps: 0.0
+  maximum_speed_command_mps: 5.5
+  maximum_steering_command_rad: 0.3
+state_limits:
+  minimum_predicted_speed_mps: -0.1
+  maximum_predicted_speed_mps: 5.56
+  maximum_predicted_yaw_rate_radps: 1.2
+weights:
+  lateral: 8.0
+  yaw: 28.2682787
+  progress_speed: 2.4
+  steering_command_change: 0.25908285
+  speed_command_change: 0.2061432
+command_change_scales:
+  speed_mps: 0.2
+  steering_rad: 0.06
+startup:
+  stationary_solve_count: 3
+  cpu_limit_s: 0.5
