@@ -3,6 +3,25 @@
 System identification and model predictive path tracking for the
 POLARIS GEM e2 simulator.
 
+## Assignment Coverage
+
+| Assignment requirement | Implementation and evidence |
+| --- | --- |
+| Simulator data for system identification | Reproducible commissioned train, validation, and held-out test profiles in `gem_sysid` |
+| Ackermann command and current state to future state model | Separate learned speed and yaw-rate residual MLPs plus midpoint Euler pose propagation |
+| Model validation inputs, outputs, and RMSE | Selected-model metric table and `selected_model_test_evidence.png` below |
+| MPC using the learned dynamics model | Direct-command nonlinear MPC in `gem_control` |
+| CSV path execution | Simulator `package://gem_pure_pursuit_sim/waypoints/wps.csv`, converted to a closed arc-length path |
+| Maximum speed `20 km/h` | Final lap: `19.660 km/h` maximum measured, `19.800 km/h` maximum command |
+| Cross-track error within `1 m` | Final lap: `0.0543 m` maximum absolute smoothed-path error |
+| Dockerfile and build/run instructions | Included below |
+| Saved system-identification and cross-track images | Included and embedded below |
+| Demonstration video | Not yet recorded; required recording contents are listed below |
+
+The cascaded-P controller and initial-error recovery test are additional
+validation work. They are documented after the required learned-model MPC but
+are not assignment requirements.
+
 ## Development Environment
 
 The project is developed on Windows using Docker Desktop with the WSL2
@@ -10,6 +29,20 @@ backend. ROS Noetic, Gazebo 11, and the project dependencies will run
 inside an Ubuntu 20.04 Docker container.
 
 ## Run the Environment
+
+Clone the repository together with its simulator submodule:
+
+```bash
+git clone --recurse-submodules \
+  https://github.com/plenarbence/gem-mpc-path-tracking.git
+cd gem-mpc-path-tracking
+```
+
+For an existing clone, initialize the simulator with:
+
+```bash
+git submodule update --init --recursive
+```
 
 Build the image:
 
@@ -172,12 +205,13 @@ Build and validate the closed, arc-length-parameterized path:
 rosrun gem_control validate_reference_path.py
 ```
 
-The `gem_control` package resolves the simulator waypoint CSV through ROS,
-removes the stationary prefix and duplicates, extracts one lap, closes its
-endpoint, and fits the validated periodic smoothing spline. It provides both a
-numerical Python path for vehicle projection and a differentiable CasADi path
-for MPC. Validation evidence is written to `results/reference_path/`; the
-method and interface are documented in
+The `gem_control` package resolves
+`package://gem_pure_pursuit_sim/waypoints/wps.csv` through ROS, removes the
+stationary prefix and duplicates, extracts one lap, closes its endpoint, and
+fits the validated periodic smoothing spline. It provides both a numerical
+Python path for vehicle projection and a differentiable CasADi path for MPC.
+Validation evidence is written to `results/reference_path/`; the method and
+interface are documented in
 [`docs/reference_path.md`](docs/reference_path.md).
 
 ## Full Learned MPC
@@ -223,8 +257,10 @@ The final horizon-12 lap used a `19.5 km/h` requested path progression and
 travelled `831.68 m` with `0.00776 m` lateral RMS error and `0.05426 m`
 maximum error. All 1,648 solves were accepted; complete MPC computation was
 `36.63 ms` p95 and `76.71 ms` maximum with no `80 ms` deadline miss. Horizon
-10 was therefore not required. Implementation details, limits, warm starts,
-deadline handling, and evidence are documented in
+10 was therefore not required. Maximum measured vehicle speed was
+`19.660 km/h`, and maximum Ackermann speed command was `19.800 km/h`, so the
+assignment's `20 km/h` limit was respected. Implementation details, limits,
+warm starts, deadline handling, and evidence are documented in
 [`docs/full_learned_mpc.md`](docs/full_learned_mpc.md).
 
 The third panel reports unsigned vehicle distance to the nearest original CSV
@@ -255,7 +291,7 @@ Implementation, timing, and validation details are in
 
 ![Cascaded-P validation](results/cascaded_p/simulator_19p5_kmh/validation.png)
 
-## Initial-Error Stress Test
+## Extra Validation: Initial-Error Stress Test
 
 The full learned MPC and cascaded P were also run from the same `0.5 m`
 lateral and `+40 deg` yaw error at a `10 km/h` reference path progression for
@@ -273,6 +309,17 @@ Commands, exact metrics, and interpretation are documented in
 [`docs/initial_error_recovery.md`](docs/initial_error_recovery.md).
 
 ![Initial-error comparison](results/initial_error_0p5m_40deg_10kmh/comparison.png)
+
+## Demonstration Video
+
+The demonstration video is the only assignment deliverable not yet completed.
+The final recording must:
+
+1. Start `full_mpc_sim.launch` from a terminal.
+2. Show the vehicle completing the path in Gazebo.
+3. Show RViz displaying the CSV path and vehicle progress.
+4. End on the selected-model input/output RMSE image.
+5. End on the final cross-track-error image.
 
 ## Status
 

@@ -19,6 +19,14 @@
     "rms_rad": 0.0032199600764468684,
     "maximum_absolute_rad": 0.027426221347476964
   },
+  "speed": {
+    "assignment_limit_kmh": 20.0,
+    "maximum_measured_mps": 5.461180686660715,
+    "maximum_measured_kmh": 19.660250471978575,
+    "maximum_command_mps": 5.500000054989537,
+    "maximum_command_kmh": 19.800000197962333,
+    "assignment_limit_respected": true
+  },
   "timing": {
     "mean_total_compute_ms": 28.492647870218242,
     "p95_total_compute_ms": 36.62900550043559,

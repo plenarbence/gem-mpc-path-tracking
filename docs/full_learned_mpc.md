@@ -170,5 +170,7 @@ and then holds zero until stationary. The recorded final lap covered
 `28.49 ms` mean, `36.63 ms` p95, and `76.71 ms` maximum, with zero `80 ms`
 deadline misses. All solves were accepted, so the horizon-10 fallback was not
 required and horizon 12 remains selected. Commissioned takeover delay was
-`4.50 ms`; the vehicle stopped stationary in `1.60 s`. Evidence is stored in
-`results/mpc/simulator_h12_19p5_kmh/`.
+`4.50 ms`; maximum measured vehicle speed was `19.660 km/h`, and maximum
+Ackermann speed command was `19.800 km/h`, satisfying the assignment's
+`20 km/h` limit. The vehicle stopped stationary in `1.60 s`. Evidence is
+stored in `results/mpc/simulator_h12_19p5_kmh/`.

@@ -8,9 +8,24 @@
     "p95_absolute_m": 0.020338400537709366,
     "maximum_absolute_m": 0.025680853870831105
   },
+  "original_csv_waypoint_distance": {
+    "metric": "unsigned distance to nearest selected-lap CSV waypoint",
+    "waypoint_count": 3151,
+    "rms_m": 0.05022466047490255,
+    "p95_m": 0.08647721343561222,
+    "maximum_m": 0.09368532401239385
+  },
   "yaw_error": {
     "rms_rad": 0.004875685252200437,
     "maximum_absolute_rad": 0.01863996035270457
+  },
+  "speed": {
+    "assignment_limit_kmh": 20.0,
+    "maximum_measured_mps": 2.2019301212424045,
+    "maximum_measured_kmh": 7.926948436472657,
+    "maximum_command_mps": 4.005252014635414,
+    "maximum_command_kmh": 14.418907252687491,
+    "assignment_limit_respected": true
   },
   "timing": {
     "mean_total_compute_ms": 38.42307407303331,

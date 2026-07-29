@@ -56,6 +56,9 @@ def analyze(run_directory: Path) -> dict[str, object]:
     yaw_error = columns["yaw_error_rad"]
     total_compute = columns["mpc_total_compute_s"]
     publish_interval = np.diff(columns["publish_time_s"])
+    measured_speed = columns["speed_mps"]
+    speed_command = columns["published_speed_command_mps"]
+    assignment_speed_limit_mps = 20.0 / 3.6
     original_waypoints = load_waypoint_csv(preprocessing.source_csv)[
         preprocessing.first_lap_raw_index
         : preprocessing.last_lap_raw_index + 1
@@ -91,6 +94,17 @@ def analyze(run_directory: Path) -> dict[str, object]:
         "yaw_error": {
             "rms_rad": rms(yaw_error),
             "maximum_absolute_rad": float(np.max(np.abs(yaw_error))),
+        },
+        "speed": {
+            "assignment_limit_kmh": 20.0,
+            "maximum_measured_mps": float(np.max(measured_speed)),
+            "maximum_measured_kmh": float(3.6 * np.max(measured_speed)),
+            "maximum_command_mps": float(np.max(speed_command)),
+            "maximum_command_kmh": float(3.6 * np.max(speed_command)),
+            "assignment_limit_respected": bool(
+                np.max(measured_speed) <= assignment_speed_limit_mps
+                and np.max(speed_command) <= assignment_speed_limit_mps
+            ),
         },
         "timing": {
             "mean_total_compute_ms": float(1000.0 * np.mean(total_compute)),
@@ -139,20 +153,17 @@ def analyze(run_directory: Path) -> dict[str, object]:
     error_axis.legend()
     error_axis.grid(True, alpha=0.3)
 
-    speed_axis.plot(time_s, columns["speed_mps"], label="measured")
-    speed_axis.plot(
-        time_s,
-        columns["reference_speed_mps"],
-        label="reference",
-    )
-    speed_axis.plot(
-        time_s,
-        columns["published_speed_command_mps"],
-        label="command",
+    speed_axis.plot(time_s, measured_speed, label="measured vehicle")
+    speed_axis.plot(time_s, speed_command, label="Ackermann command")
+    speed_axis.axhline(
+        assignment_speed_limit_mps,
+        color="tab:red",
+        linestyle="--",
+        label="20 km/h assignment limit",
     )
     speed_axis.set_xlabel("time [s]")
     speed_axis.set_ylabel("speed [m/s]")
-    speed_axis.set_title("Speed")
+    speed_axis.set_title("Vehicle speed constraint")
     speed_axis.legend()
     speed_axis.grid(True, alpha=0.3)
 
