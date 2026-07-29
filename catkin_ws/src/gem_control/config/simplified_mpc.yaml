@@ -23,10 +23,10 @@ timing:
   maximum_odometry_age_s: 0.12
   learned_delay_prediction_steps: 1
 
-# Frozen v1 robust-candidate weights.
+# v1 robust candidate with the longitudinal increment penalty retuned in Gazebo.
 weights:
   lateral: 8.0
   yaw: 212.7565413928612
   progression: 0.5580760220602027
   delta_yaw: 7.506251820734166
-  delta_speed: 4.0
+  delta_speed: 0.05

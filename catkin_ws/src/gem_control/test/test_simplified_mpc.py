@@ -31,6 +31,7 @@ class SimplifiedMpcTest(unittest.TestCase):
         self.assertAlmostEqual(
             self.config.weights.yaw, 212.7565413928612
         )
+        self.assertAlmostEqual(self.config.weights.delta_speed, 0.05)
 
     def test_horizon_duration_is_1p2_seconds(self):
         self.assertAlmostEqual(

@@ -64,6 +64,20 @@ def analyze(run_directory: Path) -> dict[str, object]:
     yaw = columns["yaw_error_rad"]
     compute = columns["mpc_total_compute_s"]
     publish_interval = np.diff(columns["publish_time_s"])
+    maximum_reference_speed = float(
+        np.max(columns["reference_speed_mps"])
+    )
+    cruise_mask = (
+        (columns["elapsed_s"] >= 10.0)
+        & (
+            columns["reference_speed_mps"]
+            >= 0.99 * maximum_reference_speed
+        )
+    )
+    cruise_speed = columns["speed_mps"][cruise_mask]
+    cruise_reference = columns["reference_speed_mps"][cruise_mask]
+    if not cruise_speed.size:
+        raise ValueError("control log has no post-startup cruise samples")
 
     summary = {
         "controller": "simplified_mpc",
@@ -111,8 +125,24 @@ def analyze(run_directory: Path) -> dict[str, object]:
             "maximum_measured_mps": float(
                 np.max(columns["speed_mps"])
             ),
+            "maximum_measured_kmh": float(
+                3.6 * np.max(columns["speed_mps"])
+            ),
             "maximum_published_command_mps": float(
                 np.max(columns["published_speed_command_mps"])
+            ),
+            "twenty_kmh_limit_respected": bool(
+                np.max(columns["speed_mps"]) <= 20.0 / 3.6
+            ),
+            "cruise_definition": (
+                "elapsed >= 10 s and reference >= 99% of run maximum"
+            ),
+            "cruise_sample_count": int(cruise_speed.size),
+            "cruise_mean_mps": float(np.mean(cruise_speed)),
+            "cruise_minimum_mps": float(np.min(cruise_speed)),
+            "cruise_maximum_mps": float(np.max(cruise_speed)),
+            "cruise_tracking_rmse_mps": rms(
+                cruise_speed - cruise_reference
             ),
         },
         "steering": {

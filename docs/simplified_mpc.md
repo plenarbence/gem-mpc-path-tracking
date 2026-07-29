@@ -54,15 +54,22 @@ positions, headings, and curvatures are evaluated at the optimized `s_k`.
 
 ## Cost And Lower Command
 
-The frozen robust `v1` weights are
+The final weights retain the robust `v1` path/yaw values and use the
+Gazebo-validated longitudinal penalty:
 
 ```text
 8.0               * e_y^2
 212.7565413928612 * (1 - cos(e_psi))
 0.5580760220602   * (progress_speed - reference_speed)^2
-4.0               * (Delta v / 0.2)^2
+0.05              * (Delta v / 0.2)^2
 7.5062518207342   * (Delta psi / 0.1735)^2
 ```
+
+The original robust `v1` value for the normalized `Delta v` term was `4.0`.
+That value made recovery from a Gazebo speed disturbance too expensive: the
+first full run fell toward `4.0-4.3 m/s`. Partial high-speed runs tested `0.1`,
+`0.2`, and `0.05`. The final `0.05` value recovered speed without exceeding
+the measured `20 km/h` limit and was retained for the replacement full lap.
 
 The first optimized input becomes the next Ackermann command:
 
@@ -115,22 +122,26 @@ The requested `19.5 km/h` Gazebo run completed one lap.
 
 | Metric | Result |
 |---|---:|
-| Progress | 831.68 m |
-| Accepted solves | 2,078 / 2,078 |
-| Lateral-error RMS | 0.0150 m |
-| Lateral-error p95 absolute | 0.0311 m |
-| Lateral-error maximum absolute | 0.0523 m |
-| Maximum measured speed | 19.32 km/h |
-| Mean complete calculation | 12.33 ms |
-| p95 complete calculation | 16.42 ms |
-| Maximum complete calculation | 39.77 ms |
+| Progress | 831.71 m |
+| Accepted solves | 1,620 / 1,620 |
+| Lateral-error RMS | 0.0122 m |
+| Lateral-error p95 absolute | 0.0228 m |
+| Lateral-error maximum absolute | 0.0529 m |
+| Cruise mean speed | 19.16 km/h |
+| Cruise speed range | 18.34 to 19.99 km/h |
+| Cruise speed RMSE | 0.1544 m/s |
+| Maximum measured speed | 19.99 km/h |
+| Mean complete calculation | 16.77 ms |
+| p95 complete calculation | 23.60 ms |
+| Maximum complete calculation | 60.60 ms |
 | Deadline misses | 0 |
-| Maximum steering command | 0.0590 rad |
+| Maximum steering command | 0.0581 rad |
 | Steering saturations | 0 |
 | Commissioned takeover delay | 4.483 ms |
+| Final stationary state | passed |
 
 The path result is well inside the assignment's `+/-1 m` lateral-error limit.
-The vehicle does not hold the requested speed throughout the lap: after the
-initial peak it settles near `4.0-4.3 m/s`. This is expected from applying the
-unchanged `v1` increment-to-command interface to Gazebo's lower speed loop and
-rolling load. No unmodeled longitudinal gain was added during validation.
+Cruise statistics exclude the first 10 s acceleration period and the
+finish-reference slowdown. The final tuning changes only the normalized
+`Delta v` penalty; progression, lateral/yaw weights, steering behavior,
+command limits, timing, and horizon remain unchanged.

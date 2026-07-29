@@ -270,12 +270,13 @@ roslaunch gem_control simplified_mpc_sim.launch \
   output_directory:=/workspace/results/simplified_mpc/simulator_h12_19p5_kmh
 ```
 
-The completed lap achieved `0.0150 m` RMS and `0.0523 m` maximum absolute
-lateral error. All 2,078 solves were accepted; complete calculation was
-`16.42 ms` p95 and `39.77 ms` maximum, with no `80 ms` deadline misses.
-The unchanged `v1` longitudinal interface reached `19.32 km/h` but did not
-hold that speed against the Gazebo lower-loop/rolling-load mismatch. Details
-are in [`docs/simplified_mpc.md`](docs/simplified_mpc.md).
+The completed lap achieved `0.0122 m` RMS and `0.0529 m` maximum absolute
+lateral error. All 1,620 solves were accepted; complete calculation was
+`23.60 ms` p95 and `60.60 ms` maximum, with no `80 ms` deadline misses.
+After startup, measured speed averaged `19.16 km/h` and stayed between
+`18.34` and `19.99 km/h`. The normalized `Delta v` penalty was reduced from
+the frozen `4.0` value to `0.05` after partial-run validation. Details are in
+[`docs/simplified_mpc.md`](docs/simplified_mpc.md).
 
 ![Simplified-MPC validation](results/simplified_mpc/simulator_h12_19p5_kmh/validation.png)
 
