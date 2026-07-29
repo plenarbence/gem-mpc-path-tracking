@@ -1,0 +1,18 @@
+# Optional NVIDIA acceleration for Docker Desktop with the WSL2 backend.
+services:
+  dev:
+    gpus: all
+    environment:
+      GALLIUM_DRIVER: d3d12
+      MESA_D3D12_DEFAULT_ADAPTER_NAME: NVIDIA
+      LD_LIBRARY_PATH: /usr/lib/wsl/lib:/usr/lib/x86_64-linux-gnu
+      NVIDIA_DRIVER_CAPABILITIES: all
+    volumes:
+      - type: bind
+        source: /usr/lib/wsl/lib
+        target: /usr/lib/wsl/lib
+        read_only: true
+      - type: bind
+        source: /usr/lib/wsl/drivers
+        target: /usr/lib/wsl/drivers
+        read_only: true

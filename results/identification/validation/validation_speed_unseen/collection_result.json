@@ -1,0 +1,12 @@
+{
+  "profile_name": "validation_speed_unseen",
+  "split": "validation",
+  "duration_s": 37.1,
+  "sample_count": 372,
+  "bag_path": "/workspace/data/identification/validation/validation_speed_unseen_2026-07-29-08-42-55.bag",
+  "bag_size_bytes": 4868064,
+  "commissioning_mean_delay_ms": 4.983333399999999,
+  "recorded_lower_batch_mean_delay_ms": 4.777329749067478,
+  "recorded_lower_batch_p95_delay_ms": 5.166666667719255,
+  "result_directory": "/workspace/results/identification/validation/validation_speed_unseen"
+}

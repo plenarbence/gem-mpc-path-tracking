@@ -1,0 +1,12 @@
+{
+  "profile_name": "validation_steering_unseen",
+  "split": "validation",
+  "duration_s": 66.0,
+  "sample_count": 661,
+  "bag_path": "/workspace/data/identification/validation/validation_steering_unseen_2026-07-29-08-43-45.bag",
+  "bag_size_bytes": 8414087,
+  "commissioning_mean_delay_ms": 4.866666700000001,
+  "recorded_lower_batch_mean_delay_ms": 4.9556227936323,
+  "recorded_lower_batch_p95_delay_ms": 5.333333333510382,
+  "result_directory": "/workspace/results/identification/validation/validation_steering_unseen"
+}

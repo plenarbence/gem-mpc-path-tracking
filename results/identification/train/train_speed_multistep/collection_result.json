@@ -1,0 +1,12 @@
+{
+  "profile_name": "train_speed_multistep",
+  "split": "train",
+  "duration_s": 39.0,
+  "sample_count": 391,
+  "bag_path": "/workspace/data/identification/train/train_speed_multistep_2026-07-29-08-34-57.bag",
+  "bag_size_bytes": 5109579,
+  "commissioning_mean_delay_ms": 4.950000100000001,
+  "recorded_lower_batch_mean_delay_ms": 4.988491048530341,
+  "recorded_lower_batch_p95_delay_ms": 5.333333333510382,
+  "result_directory": "/workspace/results/identification/train/train_speed_multistep"
+}

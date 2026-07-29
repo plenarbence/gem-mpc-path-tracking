@@ -1,0 +1,91 @@
+{
+  "dataset": "/workspace/data/processed/test.csv",
+  "profile_name": "test_long_mixed",
+  "split": "test",
+  "sample_count": 1181,
+  "transition_count": 1180,
+  "dt_source": "difference between consecutive synchronization anchors",
+  "dt_ms": {
+    "mean": 100.0,
+    "min": 99.00000000016007,
+    "max": 101.00000000056752
+  },
+  "methods": {
+    "euler": "Uses v_k and omega_k at the beginning of each interval.",
+    "midpoint_euler": "Uses endpoint-averaged v and omega and evaluates position at the resulting midpoint heading. This is an offline, noncausal integration baseline because it uses k+1 values."
+  },
+  "errors": {
+    "xy": "Euclidean position error",
+    "yaw": "predicted minus measured yaw, wrapped to [-pi, pi)"
+  },
+  "metrics": {
+    "one_step": {
+      "euler": {
+        "xy_error_m": {
+          "rmse": 0.003118066002237059,
+          "mae": 0.0025605969460051085,
+          "p95_abs": 0.0056852972196836885,
+          "max_abs": 0.01151995142890019,
+          "final_abs": 0.00011910266158137086
+        },
+        "yaw_error_rad": {
+          "rmse": 0.0011315536142808464,
+          "mae": 0.0006884043132299148,
+          "p95_abs": 0.0026837451500707032,
+          "max_abs": 0.0057254792292615875,
+          "final_abs": 7.811839264348919e-08
+        }
+      },
+      "midpoint_euler": {
+        "xy_error_m": {
+          "rmse": 0.0001328513140090116,
+          "mae": 0.00012137983926202364,
+          "p95_abs": 0.00017877882500875046,
+          "max_abs": 0.0009585679653160242,
+          "final_abs": 0.00010152556613835061
+        },
+        "yaw_error_rad": {
+          "rmse": 0.00017790769354598818,
+          "mae": 0.00010908747289049154,
+          "p95_abs": 0.0004074928884025379,
+          "max_abs": 0.0008404636171706059,
+          "final_abs": 7.46977377730218e-08
+        }
+      }
+    },
+    "rollout": {
+      "euler": {
+        "xy_error_m": {
+          "rmse": 0.7356417633047153,
+          "mae": 0.5491870079433294,
+          "p95_abs": 1.3672191518823658,
+          "max_abs": 1.4437078942228443,
+          "final_abs": 1.235286052761578
+        },
+        "yaw_error_rad": {
+          "rmse": 0.012252565260959192,
+          "mae": 0.010303928489872079,
+          "p95_abs": 0.022251100947382252,
+          "max_abs": 0.025611022281670337,
+          "final_abs": 0.015559725723670592
+        }
+      },
+      "midpoint_euler": {
+        "xy_error_m": {
+          "rmse": 0.6347014656436243,
+          "mae": 0.48874375177646256,
+          "p95_abs": 1.0825907781230761,
+          "max_abs": 1.106263660171715,
+          "final_abs": 1.0216399442335462
+        },
+        "yaw_error_rad": {
+          "rmse": 0.007771675836027106,
+          "mae": 0.006049683947251169,
+          "p95_abs": 0.015558680963301708,
+          "max_abs": 0.016558313220331744,
+          "final_abs": 0.015559157959557979
+        }
+      }
+    }
+  }
+}

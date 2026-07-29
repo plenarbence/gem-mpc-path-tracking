@@ -1,0 +1,12 @@
+{
+  "profile_name": "train_steering_chirp",
+  "split": "train",
+  "duration_s": 68.0,
+  "sample_count": 681,
+  "bag_path": "/workspace/data/identification/train/train_steering_chirp_2026-07-29-08-39-52.bag",
+  "bag_size_bytes": 8652938,
+  "commissioning_mean_delay_ms": 4.8666667000000015,
+  "recorded_lower_batch_mean_delay_ms": 5.71683798327109,
+  "recorded_lower_batch_p95_delay_ms": 6.166666666103993,
+  "result_directory": "/workspace/results/identification/train/train_steering_chirp"
+}

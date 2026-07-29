@@ -1,0 +1,31 @@
+# Catkin build output
+catkin_ws/.catkin_tools/
+catkin_ws/build/
+catkin_ws/devel/
+catkin_ws/install/
+catkin_ws/logs/
+
+# Python cache and virtual environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# ROS runtime data
+*.bag
+*.bag.active
+.ros/
+results/**/*.log
+
+# Local configuration
+.env
+
+# Editors
+.idea/
+.vscode/
+*.swp
+
+# Operating system metadata
+.DS_Store
+Thumbs.db
+Desktop.ini

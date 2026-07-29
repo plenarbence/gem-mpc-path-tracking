@@ -1,0 +1,51 @@
+{
+  "selection": {
+    "candidate_name": "mlp_h2_state_one_step",
+    "seed": 89,
+    "validation_composite_score": 0.014739935975355256,
+    "run_directory": "runs/mlp_h2_state_one_step/seed_89",
+    "selection_uses_test_metrics": false,
+    "test_evaluated_after_selection": true
+  },
+  "test_metrics": {
+    "one_step_sample_count": 1178,
+    "rollout20_window_count": 1159,
+    "state_speed_rmse": 0.004014962301484392,
+    "state_speed_mae": 0.002611860494832495,
+    "state_speed_p95_abs": 0.00618216499983879,
+    "state_speed_max_abs": 0.03984406473531443,
+    "state_yaw_rate_rmse": 0.003046415614096864,
+    "state_yaw_rate_mae": 0.0016140712223970256,
+    "state_yaw_rate_p95_abs": 0.0058925126772061106,
+    "state_yaw_rate_max_abs": 0.035691851438733296,
+    "pose_xy_rmse": 0.00025311498692098073,
+    "pose_xy_mae": 0.00018541426523702035,
+    "pose_xy_p95_abs": 0.0003924238655467543,
+    "pose_xy_max_abs": 0.001948143554273656,
+    "pose_yaw_rmse": 0.00020219882086642012,
+    "pose_yaw_mae": 0.0001254129791499637,
+    "pose_yaw_p95_abs": 0.00042717816599946445,
+    "pose_yaw_max_abs": 0.0016035569882770773,
+    "rollout20_xy_rmse": 0.05477806395095363,
+    "rollout20_xy_mae": 0.04381309918134642,
+    "rollout20_xy_p95_abs": 0.11610807224622817,
+    "rollout20_xy_max_abs": 0.2179933561967441,
+    "rollout20_yaw_rmse": 0.00945073292849919,
+    "rollout20_yaw_mae": 0.00599972477236246,
+    "rollout20_yaw_p95_abs": 0.020383366484529864,
+    "rollout20_yaw_max_abs": 0.05492222304797645,
+    "rollout20_trajectory_xy_rmse": 0.028081868360154263,
+    "rollout20_trajectory_xy_mae": 0.017063385975465126,
+    "rollout20_trajectory_xy_p95_abs": 0.05825427908677991,
+    "rollout20_trajectory_xy_max_abs": 0.2179933561967441,
+    "rollout20_trajectory_yaw_rmse": 0.005976579507200023,
+    "rollout20_trajectory_yaw_mae": 0.0031637358295493814,
+    "rollout20_trajectory_yaw_p95_abs": 0.011862650012291276,
+    "rollout20_trajectory_yaw_max_abs": 0.05492222304797645
+  },
+  "portable_vs_pytorch": {
+    "one_step_state_max_abs": 2.3608815258313598e-07,
+    "rollout_state_max_abs": 1.1419274645874111e-06,
+    "rollout_pose_max_abs": 8.216235511326886e-05
+  }
+}

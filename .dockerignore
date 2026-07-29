@@ -1,0 +1,27 @@
+# Version control and editor settings
+.git/
+.gitignore
+.idea/
+.vscode/
+
+# Catkin build output
+catkin_ws/build/
+catkin_ws/devel/
+catkin_ws/install/
+catkin_ws/logs/
+
+# Python cache and virtual environments
+**/__pycache__/
+**/*.py[cod]
+.venv/
+venv/
+
+# ROS recordings and local configuration
+*.bag
+*.bag.active
+.env
+
+# Operating system metadata
+.DS_Store
+Thumbs.db
+Desktop.ini

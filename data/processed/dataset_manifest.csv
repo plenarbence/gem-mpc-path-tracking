@@ -1,0 +1,11 @@
+profile_name,split,sample_count,commissioned_delay_ms,source_bag,dataset_csv,metadata_json
+train_speed_multistep,train,391,4.950000100000001,/workspace/data/identification/train/train_speed_multistep_2026-07-29-08-34-57.bag,train/train_speed_multistep.csv,train/train_speed_multistep.metadata.json
+train_speed_ramps,train,531,4.866666500000001,/workspace/data/identification/train/train_speed_ramps_2026-07-29-08-35-49.bag,train/train_speed_ramps.csv,train/train_speed_ramps.metadata.json
+train_steering_multistep,train,706,4.883333400000001,/workspace/data/identification/train/train_steering_multistep_2026-07-29-08-36-55.bag,train/train_steering_multistep.csv,train/train_steering_multistep.metadata.json
+train_steering_sine,train,781,4.900000200000001,/workspace/data/identification/train/train_steering_sine_2026-07-29-08-38-19.bag,train/train_steering_sine.csv,train/train_steering_sine.metadata.json
+train_steering_chirp,train,681,4.8666667000000015,/workspace/data/identification/train/train_steering_chirp_2026-07-29-08-39-52.bag,train/train_steering_chirp.csv,train/train_steering_chirp.metadata.json
+train_combined_random,train,841,4.899999900000001,/workspace/data/identification/train/train_combined_random_2026-07-29-08-41-14.bag,train/train_combined_random.csv,train/train_combined_random.metadata.json
+validation_speed_unseen,validation,372,4.983333399999999,/workspace/data/identification/validation/validation_speed_unseen_2026-07-29-08-42-55.bag,validation/validation_speed_unseen.csv,validation/validation_speed_unseen.metadata.json
+validation_steering_unseen,validation,661,4.866666700000001,/workspace/data/identification/validation/validation_steering_unseen_2026-07-29-08-43-45.bag,validation/validation_steering_unseen.csv,validation/validation_steering_unseen.metadata.json
+validation_stop_go_turn,validation,561,4.9499999,/workspace/data/identification/validation/validation_stop_go_turn_2026-07-29-08-45-05.bag,validation/validation_stop_go_turn.csv,validation/validation_stop_go_turn.metadata.json
+test_long_mixed,test,1181,4.9333333,/workspace/data/identification/test/test_long_mixed_2026-07-29-08-46-15.bag,test/test_long_mixed.csv,test/test_long_mixed.metadata.json

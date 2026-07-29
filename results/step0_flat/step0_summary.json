@@ -1,0 +1,55 @@
+{
+  "bag": "/workspace/data/step0_flat_2026-07-29-06-20-54.bag",
+  "topic_timing": {
+    "/gem_sysid/ackermann_cmd_stamped": {
+      "message_count": 244,
+      "mean_rate_hz": 10.108153078203,
+      "min_interval_ms": 0.0,
+      "max_interval_ms": 101.0000000000133
+    },
+    "/gem/base_footprint/odom": {
+      "message_count": 745,
+      "mean_rate_hz": 29.411764705882344,
+      "min_interval_ms": 33.999999999991815,
+      "max_interval_ms": 34.000000000020236
+    },
+    "/gem/imu": {
+      "message_count": 506,
+      "mean_rate_hz": 20.0,
+      "min_interval_ms": 49.99999999998295,
+      "max_interval_ms": 50.00000000001137
+    },
+    "/gem/joint_states": {
+      "message_count": 762,
+      "mean_rate_hz": 30.118336169707526,
+      "min_interval_ms": 15.999999999991132,
+      "max_interval_ms": 34.000000000020236
+    },
+    "/gem/left_steering_ctrlr/command": {
+      "message_count": 759,
+      "mean_rate_hz": 29.99960422685717,
+      "min_interval_ms": 30.9999999999917,
+      "max_interval_ms": 36.000000000001364
+    },
+    "/gem/right_steering_ctrlr/command": {
+      "message_count": 759,
+      "mean_rate_hz": 29.99960422685717,
+      "min_interval_ms": 30.99999999997749,
+      "max_interval_ms": 36.000000000001364
+    },
+    "/gem/left_rear_wheel_ctrlr/command": {
+      "message_count": 759,
+      "mean_rate_hz": 29.99960422685717,
+      "min_interval_ms": 30.9999999999917,
+      "max_interval_ms": 36.000000000001364
+    }
+  },
+  "ackermann_publish_to_next_lower_update": {
+    "sample_count": 244,
+    "mean_ms": 21.934426229510596,
+    "min_ms": 1.999999999981128,
+    "max_ms": 24.00000000000091,
+    "p95_ms": 22.999999999996135
+  },
+  "note": "The lower-update delay is an observed upper bound based on the next lower-controller publication, not a stamped callback time."
+}

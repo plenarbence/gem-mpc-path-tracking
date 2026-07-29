@@ -1,0 +1,3 @@
+[submodule "catkin_ws/src/POLARIS_GEM_e2"]
+	path = catkin_ws/src/POLARIS_GEM_e2
+	url = https://github.com/plenarbence/POLARIS_GEM_e2.git

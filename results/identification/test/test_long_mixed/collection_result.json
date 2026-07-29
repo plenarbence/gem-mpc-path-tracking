@@ -1,0 +1,12 @@
+{
+  "profile_name": "test_long_mixed",
+  "split": "test",
+  "duration_s": 118.0,
+  "sample_count": 1181,
+  "bag_path": "/workspace/data/identification/test/test_long_mixed_2026-07-29-08-46-15.bag",
+  "bag_size_bytes": 14759080,
+  "commissioning_mean_delay_ms": 4.9333333,
+  "recorded_lower_batch_mean_delay_ms": 4.7538808918761175,
+  "recorded_lower_batch_p95_delay_ms": 5.333333332600887,
+  "result_directory": "/workspace/results/identification/test/test_long_mixed"
+}

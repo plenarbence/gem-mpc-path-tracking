@@ -1,0 +1,8 @@
+{
+  "candidate_name": "mlp_h2_state_one_step",
+  "seed": 89,
+  "validation_composite_score": 0.014739935975355256,
+  "run_directory": "runs/mlp_h2_state_one_step/seed_89",
+  "selection_uses_test_metrics": false,
+  "test_evaluated_after_selection": true
+}

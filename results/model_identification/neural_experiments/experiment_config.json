@@ -1,0 +1,46 @@
+{
+  "processed_root": "/workspace/data/processed",
+  "histories": [
+    0,
+    1,
+    2
+  ],
+  "objectives": [
+    "state_one_step",
+    "pose_one_step",
+    "pose_rollout20"
+  ],
+  "seeds": [
+    17,
+    43,
+    89
+  ],
+  "rollout_horizon": 20,
+  "two_separate_models": [
+    "delta_speed",
+    "delta_yaw_rate"
+  ],
+  "evaluation_scales_train_only": {
+    "state_speed": 1.531427301011633,
+    "state_yaw_rate": 0.1315780633030927,
+    "pose_xy": 0.2957149537534922,
+    "pose_yaw": 0.013257713396653511,
+    "rollout_xy": 5.97303461847935,
+    "rollout_yaw": 0.21397662714499094
+  },
+  "training": {
+    "learning_rate": 0.001,
+    "batch_size": 128,
+    "max_epochs": 150,
+    "early_stopping_patience": 20,
+    "weight_decay": 1e-05,
+    "gradient_clip_norm": 1.0,
+    "minimum_relative_improvement": 1e-05
+  },
+  "torch_version": "2.4.1+cpu",
+  "candidate_evaluation_splits": [
+    "train",
+    "validation"
+  ],
+  "test_policy": "Evaluate only the selected checkpoint after selection"
+}

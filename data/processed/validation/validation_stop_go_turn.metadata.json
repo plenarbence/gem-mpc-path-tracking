@@ -1,0 +1,47 @@
+{
+  "profile_name": "validation_stop_go_turn",
+  "split": "validation",
+  "source_bag": "/workspace/data/identification/validation/validation_stop_go_turn_2026-07-29-08-45-05.bag",
+  "profile_start_time_s": 6119.841416667,
+  "sample_count": 561,
+  "nominal_sample_period_s": 0.1,
+  "commissioned_delay_ms": 4.9499999,
+  "anchor_definition": "AckermannDriveStamped header timestamp plus the one-time commissioned delay for this run",
+  "actual_anchor_period_ms": {
+    "mean": 100.0,
+    "min": 98.99999999925058,
+    "max": 101.00000000056752
+  },
+  "interpolation": {
+    "method": "linear",
+    "yaw_handling": "Quaternion yaw is unwrapped before interpolation; both wrapped and unwrapped results are stored.",
+    "yaw_rate_source": "Odometry twist.twist.angular.z",
+    "odometry": {
+      "source_sample_count": 1723,
+      "max_bracket_span_ms": 34.00000000056025,
+      "mean_bracket_span_ms": 34.000000000015525,
+      "max_nearest_sample_distance_ms": 16.949999901044066
+    }
+  },
+  "columns": [
+    "profile_name",
+    "split",
+    "sample_index",
+    "nominal_time_s",
+    "anchor_time_s",
+    "anchor_relative_s",
+    "actual_dt_s",
+    "command_publish_time_s",
+    "commissioned_delay_ms",
+    "speed_command_mps",
+    "steering_command_rad",
+    "x_m",
+    "y_m",
+    "vx_world_mps",
+    "vy_world_mps",
+    "speed_longitudinal_mps",
+    "yaw_rad",
+    "yaw_unwrapped_rad",
+    "yaw_rate_radps"
+  ]
+}

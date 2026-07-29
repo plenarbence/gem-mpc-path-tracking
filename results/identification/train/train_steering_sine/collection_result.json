@@ -1,0 +1,12 @@
+{
+  "profile_name": "train_steering_sine",
+  "split": "train",
+  "duration_s": 78.0,
+  "sample_count": 781,
+  "bag_path": "/workspace/data/identification/train/train_steering_sine_2026-07-29-08-38-19.bag",
+  "bag_size_bytes": 9894871,
+  "commissioning_mean_delay_ms": 4.900000200000001,
+  "recorded_lower_batch_mean_delay_ms": 4.6438326930253035,
+  "recorded_lower_batch_p95_delay_ms": 5.000000000109139,
+  "result_directory": "/workspace/results/identification/train/train_steering_sine"
+}

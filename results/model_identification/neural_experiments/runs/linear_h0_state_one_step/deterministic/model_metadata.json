@@ -1,0 +1,29 @@
+{
+  "candidate_name": "linear_h0_state_one_step",
+  "architecture": "linear",
+  "objective": "state_one_step",
+  "history_depth": 0,
+  "feature_order": [
+    "speed_k",
+    "yaw_rate_k",
+    "speed_command_k",
+    "steering_command_k"
+  ],
+  "outputs": [
+    "delta_speed",
+    "delta_yaw_rate"
+  ],
+  "hidden_width": 0,
+  "hidden_layers": 0,
+  "activation": "none",
+  "training": {
+    "learning_rate": 0.001,
+    "batch_size": 128,
+    "max_epochs": 150,
+    "early_stopping_patience": 20,
+    "weight_decay": 1e-05,
+    "gradient_clip_norm": 1.0,
+    "minimum_relative_improvement": 1e-05
+  },
+  "scalers_file": "scalers.json"
+}

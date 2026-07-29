@@ -1,0 +1,12 @@
+{
+  "profile_name": "train_speed_ramps",
+  "split": "train",
+  "duration_s": 53.0,
+  "sample_count": 531,
+  "bag_path": "/workspace/data/identification/train/train_speed_ramps_2026-07-29-08-35-49.bag",
+  "bag_size_bytes": 6825849,
+  "commissioning_mean_delay_ms": 4.866666500000001,
+  "recorded_lower_batch_mean_delay_ms": 4.990583804022545,
+  "recorded_lower_batch_p95_delay_ms": 5.333333333510382,
+  "result_directory": "/workspace/results/identification/train/train_speed_ramps"
+}

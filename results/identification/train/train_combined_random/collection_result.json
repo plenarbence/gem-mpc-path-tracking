@@ -1,0 +1,12 @@
+{
+  "profile_name": "train_combined_random",
+  "split": "train",
+  "duration_s": 84.0,
+  "sample_count": 841,
+  "bag_path": "/workspace/data/identification/train/train_combined_random_2026-07-29-08-41-14.bag",
+  "bag_size_bytes": 10608800,
+  "commissioning_mean_delay_ms": 4.899999900000001,
+  "recorded_lower_batch_mean_delay_ms": 4.940348791045636,
+  "recorded_lower_batch_p95_delay_ms": 5.333333333510382,
+  "result_directory": "/workspace/results/identification/train/train_combined_random"
+}

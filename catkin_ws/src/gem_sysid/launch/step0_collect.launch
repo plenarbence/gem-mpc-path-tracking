@@ -1,0 +1,56 @@
+<launch>
+  <arg name="profile_csv" default="$(find gem_sysid)/profiles/step0.csv"/>
+  <arg name="output_prefix" default="/workspace/data/step0"/>
+  <arg name="enable_phase_commissioning" default="true"/>
+  <arg name="target_takeover_delay_s" default="0.005"/>
+  <arg name="commissioning_trials" default="10"/>
+
+  <node
+    pkg="rosbag"
+    type="record"
+    name="step0_recorder"
+    output="screen"
+    args="-o $(arg output_prefix)
+      /clock
+      /gem_sysid/ackermann_cmd_stamped
+      /gem_sysid/profile_start
+      /gem_sysid/commissioning_delay_ms
+      /gem/ackermann_cmd
+      /gem/base_footprint/odom
+      /gem/imu
+      /gem/joint_states
+      /gem/left_steering_ctrlr/command
+      /gem/right_steering_ctrlr/command
+      /gem/left_front_wheel_ctrlr/command
+      /gem/right_front_wheel_ctrlr/command
+      /gem/left_rear_wheel_ctrlr/command
+      /gem/right_rear_wheel_ctrlr/command"/>
+
+  <node
+    pkg="gem_sysid"
+    type="excitation_node"
+    name="step0_excitation"
+    output="screen"
+    required="true">
+    <param name="profile_csv" value="$(arg profile_csv)"/>
+    <param name="command_topic" value="/gem/ackermann_cmd"/>
+    <param
+      name="stamped_command_topic"
+      value="/gem_sysid/ackermann_cmd_stamped"/>
+    <param name="sample_period_s" value="0.1"/>
+    <param name="max_speed_mps" value="5.56"/>
+    <param name="max_abs_steering_rad" value="0.30"/>
+    <param name="startup_delay_s" value="1.0"/>
+    <param name="subscriber_timeout_s" value="5.0"/>
+    <param
+      name="enable_phase_commissioning"
+      value="$(arg enable_phase_commissioning)"/>
+    <param
+      name="target_takeover_delay_s"
+      value="$(arg target_takeover_delay_s)"/>
+    <param name="commissioning_trials" value="$(arg commissioning_trials)"/>
+    <param name="commissioning_steering_rad" value="0.02"/>
+    <param name="commissioning_batch_span_s" value="0.01"/>
+    <param name="commissioning_response_timeout_s" value="5.0"/>
+  </node>
+</launch>

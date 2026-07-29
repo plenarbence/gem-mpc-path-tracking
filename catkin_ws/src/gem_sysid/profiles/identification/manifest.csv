@@ -1,0 +1,11 @@
+profile_name,split,duration_s,sample_count,max_speed_mps,max_abs_steering_rad,description,csv_path
+train_speed_multistep,train,39.0,391,5.5,0.0,Straight speed steps covering 0 to 5.5 m/s.,train/train_speed_multistep.csv
+train_speed_ramps,train,53.0,531,5.5,0.0,Straight speed ramps with several slopes and operating points.,train/train_speed_ramps.csv
+train_steering_multistep,train,70.5,706,3.8,0.3,Steering steps at low and high speed with speed-dependent limits.,train/train_steering_multistep.csv
+train_steering_sine,train,78.0,781,4.2,0.15,Persistent sine steering excitation at two vehicle speeds.,train/train_steering_sine.csv
+train_steering_chirp,train,68.0,681,3.2,0.1399976609892269,Broad-band steering chirp at a constant medium speed.,train/train_steering_chirp.csv
+train_combined_random,train,84.0,841,5.2,0.25,Coupled operating points followed by deterministic random holds.,train/train_combined_random.csv
+validation_speed_unseen,validation,37.1,372,5.3,0.0,Unseen straight speed levels and hold durations.,validation/validation_speed_unseen.csv
+validation_steering_unseen,validation,66.0,661,4.2,0.13,"Unseen sine amplitudes, frequencies, and speeds.",validation/validation_steering_unseen.csv
+validation_stop_go_turn,validation,56.0,561,3.5,0.15,"Stop, restart, and speed transitions with nonzero steering.",validation/validation_stop_go_turn.csv
+test_long_mixed,test,118.0,1181,5.2,0.22,"Long untouched mixed steps, smooth motion, chirp, and random holds.",test/test_long_mixed.csv

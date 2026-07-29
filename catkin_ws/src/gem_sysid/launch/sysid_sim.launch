@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="paused" default="false"/>
+  <arg name="gui" default="true"/>
+  <arg name="use_rviz" default="true"/>
+  <arg name="cmd_timeout" default="1.0"/>
+
+  <arg name="x" default="0.0"/>
+  <arg name="y" default="0.0"/>
+  <arg name="z" default="0.5"/>
+  <arg name="roll" default="0.0"/>
+  <arg name="pitch" default="0.0"/>
+  <arg name="yaw" default="0.0"/>
+  <arg
+    name="init_pose"
+    value="-x $(arg x) -y $(arg y) -z $(arg z) -R $(arg roll) -P $(arg pitch) -Y $(arg yaw)"/>
+
+  <arg name="robot_name" default="gem"/>
+  <arg name="velodyne_points" default="false"/>
+  <arg name="laser_points" default="false"/>
+
+  <arg unless="$(arg paused)" name="pause_arg" value=""/>
+  <arg if="$(arg paused)" name="pause_arg" value="-u"/>
+
+  <param name="/use_sim_time" value="true"/>
+  <param name="gazebo/enable_ros_network" value="true"/>
+
+  <!-- Keep physics off WSL's D3D12 path; GUI processes inherit GPU settings. -->
+  <node
+    name="gazebo"
+    pkg="gazebo_ros"
+    type="gzserver"
+    output="screen"
+    required="true"
+    args="$(arg pause_arg) -e ode $(find gem_sysid)/worlds/sysid_flat.world">
+    <env name="GALLIUM_DRIVER" value="llvmpipe"/>
+    <env name="LIBGL_ALWAYS_SOFTWARE" value="1"/>
+    <env
+      name="LD_LIBRARY_PATH"
+      value="/workspace/catkin_ws/devel/lib:/opt/ros/noetic/lib:/usr/lib/x86_64-linux-gnu"/>
+  </node>
+
+  <node
+    if="$(arg gui)"
+    name="gazebo_gui"
+    pkg="gazebo_ros"
+    type="gzclient"
+    output="screen"/>
+
+  <group ns="$(arg robot_name)">
+    <param
+      name="robot_description"
+      command="python3 $(find gem_sysid)/scripts/generate_sysid_urdf.py --xacro $(find gem_description)/urdf/gem.urdf.xacro --robot-name $(arg robot_name)"/>
+
+    <node
+      name="spawn_model_$(arg robot_name)"
+      pkg="gazebo_ros"
+      type="spawn_model"
+      respawn="false"
+      output="screen"
+      args="-param robot_description -model $(arg robot_name) -urdf $(arg init_pose)"/>
+
+    <rosparam
+      file="$(find gem_gazebo)/config/gem_joint_control_params.yaml"
+      command="load"
+      ns="/$(arg robot_name)"/>
+
+    <node
+      name="controller_spawner_$(arg robot_name)"
+      pkg="controller_manager"
+      type="spawner"
+      respawn="false"
+      output="screen"
+      ns="/$(arg robot_name)"
+      args="left_steering_ctrlr right_steering_ctrlr left_front_wheel_ctrlr right_front_wheel_ctrlr left_rear_wheel_ctrlr right_rear_wheel_ctrlr joint_state_ctrlr"/>
+
+    <node
+      name="robot_state_publisher_$(arg robot_name)"
+      pkg="robot_state_publisher"
+      type="robot_state_publisher"
+      respawn="false"
+      output="screen">
+      <param name="publish_frequency" type="double" value="30.0"/>
+      <remap from="/joint_states" to="/$(arg robot_name)/joint_states"/>
+    </node>
+
+    <node
+      name="ackermann_controller_$(arg robot_name)"
+      pkg="gem_gazebo"
+      type="gem_control.py">
+      <param name="cmd_timeout" value="$(arg cmd_timeout)"/>
+      <rosparam
+        file="$(find gem_gazebo)/config/gem_ackermann_control_params.yaml"
+        command="load"/>
+    </node>
+
+    <node
+      if="$(arg use_rviz)"
+      name="rviz_$(arg robot_name)"
+      pkg="rviz"
+      type="rviz"
+      args="-d $(find gem_description)/config_rviz/gem_gazebo_rviz.rviz"/>
+  </group>
+</launch>

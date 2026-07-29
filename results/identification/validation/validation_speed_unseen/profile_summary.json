@@ -1,0 +1,87 @@
+{
+  "bag": "/workspace/data/identification/validation/validation_speed_unseen_2026-07-29-08-42-55.bag",
+  "profile_start_time_s": 5989.641416667,
+  "commissioning_mean_delay_ms": 4.983333399999999,
+  "topic_timing": {
+    "/gem_sysid/ackermann_cmd_stamped": {
+      "message_count": 372,
+      "mean_rate_hz": 9.999999999999902,
+      "min_interval_ms": 99.9999999994543,
+      "max_interval_ms": 100.0000000003638
+    },
+    "/gem_sysid/profile_start": {
+      "message_count": 1,
+      "mean_rate_hz": null,
+      "min_interval_ms": null,
+      "max_interval_ms": null
+    },
+    "/gem_sysid/commissioning_delay_ms": {
+      "message_count": 1,
+      "mean_rate_hz": null,
+      "min_interval_ms": null,
+      "max_interval_ms": null
+    },
+    "/gem/base_footprint/odom": {
+      "message_count": 1098,
+      "mean_rate_hz": 29.411764705882533,
+      "min_interval_ms": 33.999999999650754,
+      "max_interval_ms": 34.00000000056025
+    },
+    "/gem/imu": {
+      "message_count": 746,
+      "mean_rate_hz": 20.0,
+      "min_interval_ms": 49.999999999272404,
+      "max_interval_ms": 50.0000000001819
+    },
+    "/gem/joint_states": {
+      "message_count": 1120,
+      "mean_rate_hz": 29.999999999999858,
+      "min_interval_ms": 32.99999999944703,
+      "max_interval_ms": 34.00000000056025
+    },
+    "/gem/left_steering_ctrlr/command": {
+      "message_count": 1119,
+      "mean_rate_hz": 29.99973166608542,
+      "min_interval_ms": 30.99999999994907,
+      "max_interval_ms": 36.00000000005821
+    },
+    "/gem/right_steering_ctrlr/command": {
+      "message_count": 1119,
+      "mean_rate_hz": 29.99973166608542,
+      "min_interval_ms": 30.99999999994907,
+      "max_interval_ms": 36.00000000005821
+    },
+    "/gem/left_front_wheel_ctrlr/command": {
+      "message_count": 1119,
+      "mean_rate_hz": 30.00134174158104,
+      "min_interval_ms": 30.99999999994907,
+      "max_interval_ms": 35.000000000763976
+    },
+    "/gem/right_front_wheel_ctrlr/command": {
+      "message_count": 1119,
+      "mean_rate_hz": 30.00134174158104,
+      "min_interval_ms": 30.99999999994907,
+      "max_interval_ms": 36.00000000005821
+    },
+    "/gem/left_rear_wheel_ctrlr/command": {
+      "message_count": 1119,
+      "mean_rate_hz": 29.99973166608542,
+      "min_interval_ms": 30.99999999994907,
+      "max_interval_ms": 37.000000000261934
+    },
+    "/gem/right_rear_wheel_ctrlr/command": {
+      "message_count": 1119,
+      "mean_rate_hz": 29.99973166608542,
+      "min_interval_ms": 30.99999999994907,
+      "max_interval_ms": 36.00000000005821
+    }
+  },
+  "ackermann_publish_to_next_lower_update": {
+    "sample_count": 372,
+    "mean_ms": 4.777329749067478,
+    "min_ms": 4.166666666606034,
+    "max_ms": 5.833333333612245,
+    "p95_ms": 5.166666667719255
+  },
+  "note": "The lower-batch delay uses the mean bag-receipt time of the next message on all six lower command topics. It is an observed upper bound, not a stamped controller callback time."
+}

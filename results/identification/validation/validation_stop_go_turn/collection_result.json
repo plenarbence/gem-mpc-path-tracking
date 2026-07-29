@@ -1,0 +1,12 @@
+{
+  "profile_name": "validation_stop_go_turn",
+  "split": "validation",
+  "duration_s": 56.0,
+  "sample_count": 561,
+  "bag_path": "/workspace/data/identification/validation/validation_stop_go_turn_2026-07-29-08-45-05.bag",
+  "bag_size_bytes": 7184595,
+  "commissioning_mean_delay_ms": 4.9499999,
+  "recorded_lower_batch_mean_delay_ms": 4.780748663033138,
+  "recorded_lower_batch_p95_delay_ms": 5.166666667719255,
+  "result_directory": "/workspace/results/identification/validation/validation_stop_go_turn"
+}
