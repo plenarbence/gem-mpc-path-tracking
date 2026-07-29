@@ -20,6 +20,7 @@ catkin_install_python(PROGRAMS
   scripts/analyze_full_mpc_run.py
   scripts/analyze_simplified_mpc_run.py
   scripts/analyze_cascaded_p_run.py
+  scripts/analyze_initial_error_comparison.py
   scripts/benchmark_full_mpc.py
   scripts/run_cascaded_p.py
   scripts/run_full_mpc.py

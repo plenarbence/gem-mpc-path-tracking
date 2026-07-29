@@ -280,6 +280,25 @@ the frozen `4.0` value to `0.05` after partial-run validation. Details are in
 
 ![Simplified-MPC validation](results/simplified_mpc/simulator_h12_19p5_kmh/validation.png)
 
+## Initial-Error Stress Test
+
+All three controllers were also run from the same `0.5 m` lateral and
+`+40 deg` yaw error at a `10 km/h` reference for a `50 m` target. The
+scenario is isolated in `initial_error_test.launch`, and every run performs
+its own timing commissioning.
+
+The full learned MPC and cascaded P completed the target and met the defined
+settling condition after `13.75 m` and `11.11 m`, respectively. The
+simplified MPC did not recover: it stopped after reaching `3.63 m` maximum
+progress and ended on timeout. Both completing controllers temporarily
+exceeded `1 m` lateral error, so this is a robustness comparison rather than
+a passing assignment-limit run.
+
+Commands, exact metrics, and interpretation are documented in
+[`docs/initial_error_recovery.md`](docs/initial_error_recovery.md).
+
+![Initial-error comparison](results/initial_error_0p5m_40deg_10kmh/comparison.png)
+
 ## Status
 
 Docker environment, GEM simulator, uniform identification world, reusable CSV

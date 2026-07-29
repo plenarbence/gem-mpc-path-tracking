@@ -1,0 +1,42 @@
+{
+  "controller": "cascaded_p",
+  "termination_reason": "completed_laps",
+  "cycle_count": 239,
+  "progress_travelled_m": 49.959050577555765,
+  "lateral_error": {
+    "rms_m": 0.6134025824037589,
+    "p95_absolute_m": 1.6610398271451376,
+    "maximum_absolute_m": 1.8222760231880673
+  },
+  "yaw_error": {
+    "rms_rad": 0.2479879259753262,
+    "maximum_absolute_rad": 0.6982179841284109
+  },
+  "original_csv_waypoint_distance": {
+    "metric": "unsigned distance to nearest selected-lap CSV waypoint",
+    "waypoint_count": 3151,
+    "rms_m": 0.5959862528268639,
+    "p95_m": 1.6653282802017106,
+    "maximum_m": 1.8190818395828225
+  },
+  "timing": {
+    "command_delay_steps": 1,
+    "state_prediction_enabled": false,
+    "mean_compute_ms": 0.5667224770804447,
+    "p95_compute_ms": 0.7009441025729757,
+    "maximum_compute_ms": 0.9202459987136535,
+    "deadline_miss_count": 0,
+    "mean_publish_interval_ms": 99.99999999999999,
+    "mean_measurement_age_at_takeover_ms": 21.441980607531598
+  },
+  "speed": {
+    "maximum_measured_mps": 2.888629671004068,
+    "maximum_published_command_mps": 2.7777777778
+  },
+  "commissioned_delay_ms": 4.3666668,
+  "stop": {
+    "stationary": true,
+    "settling_duration_s": 1.7,
+    "final_speed_mps": 0.06901392904239483
+  }
+}

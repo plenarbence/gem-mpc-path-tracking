@@ -1,0 +1,79 @@
+# Initial-Error Recovery Comparison
+
+## Purpose
+
+This stress test compares all three controllers from the same deliberately
+misaligned pose. It is kept separate from the nominal assignment lap results.
+No controller gains, weights, models, or horizons are changed for this test.
+
+## Scenario
+
+- Reference speed: `10 km/h`
+- Target path progress: `50 m`
+- Initial lateral displacement: `0.5 m` along the left path normal
+- Initial yaw error: `+40 deg`
+- Controller period: `100 ms`
+- Timing commissioning: enabled before every run
+- Gazebo and the smoothed reference path: identical for all controllers
+
+The initial Gazebo pose is derived from the reference-path origin:
+
+```text
+x = 0.1286947801 m
+y = -1.5034045379 m
+yaw = 0.6961865301 rad
+```
+
+The dedicated launch file uses wider `5 m` lateral and `3 rad` yaw safety
+guards so the stress response can be observed. The normal controller launch
+files retain the assignment guards.
+
+## Reproduction
+
+Run each controller independently:
+
+```bash
+roslaunch gem_control initial_error_test.launch \
+  controller:=full_learned_mpc
+
+roslaunch gem_control initial_error_test.launch \
+  controller:=simplified_mpc
+
+roslaunch gem_control initial_error_test.launch \
+  controller:=cascaded_p
+```
+
+Generate the common comparison after the three runs:
+
+```bash
+rosrun gem_control analyze_initial_error_comparison.py \
+  /workspace/results/initial_error_0p5m_40deg_10kmh
+```
+
+The comparison defines recovery as the first continuous `1.0 s` for which
+both `|lateral error| <= 0.10 m` and `|yaw error| <= 5 deg`.
+
+## Results
+
+| Controller | 50 m completed | Peak lateral error | Settled time | Settled distance | Max compute |
+|---|---:|---:|---:|---:|---:|
+| Full learned MPC | yes | `1.816 m` | `7.8 s` | `13.75 m` | `79.07 ms` |
+| Cascaded P | yes | `1.822 m` | `7.2 s` | `11.11 m` | `0.92 ms` |
+| Simplified MPC | no | `2.247 m` | not reached | not reached | `48.69 ms` |
+
+The full learned MPC and cascaded P controller both recovered and completed
+the requested distance. The simplified MPC reached only `3.63 m` maximum
+progress, reduced its speed to approximately zero, and ended on the
+`91.5 s` lap timeout. All simplified-MPC solves were accepted and no timing
+deadline was missed, so this is a limitation of its hierarchical control
+formulation for this large initial error rather than a solver failure.
+
+Both completing controllers temporarily exceeded the assignment's
+`+/-1 m` lateral band during the initial transient. This does not affect the
+nominal-lap assignment evidence, but it means this stress scenario is not a
+successful `+/-1 m` constrained recovery.
+
+![Initial-error controller comparison](../results/initial_error_0p5m_40deg_10kmh/comparison.png)
+
+Machine-readable metrics are stored in
+`results/initial_error_0p5m_40deg_10kmh/comparison_summary.json`.

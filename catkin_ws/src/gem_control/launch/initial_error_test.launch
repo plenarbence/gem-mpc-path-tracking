@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="controller" default="full_learned_mpc"/>
+  <arg name="gui" default="false"/>
+  <arg name="use_rviz" default="false"/>
+  <arg name="record_bag" default="false"/>
+  <arg
+    name="output_root"
+    default="/workspace/results/initial_error_0p5m_40deg_10kmh"/>
+
+  <!--
+    Common scenario:
+      reference speed: 10 km/h
+      distance target: 50 m = 0.0601165292474338 laps
+      initial position: 0.5 m along the left path normal
+      initial yaw: reference yaw + 40 degrees
+  -->
+  <arg name="reference_speed_mps" default="2.7777777778"/>
+  <arg name="target_laps" default="0.0601165292474338"/>
+  <arg name="initial_x_m" default="0.1286947801"/>
+  <arg name="initial_y_m" default="-1.5034045379"/>
+  <arg name="initial_z_m" default="0.5"/>
+  <arg name="initial_yaw_rad" default="0.6961865301"/>
+  <!-- Wide guards let the recovery test continue; analysis retains +/-1 m. -->
+  <arg name="maximum_lateral_error_m" default="5.0"/>
+  <arg name="maximum_yaw_error_rad" default="3.0"/>
+
+  <include
+    if="$(eval arg('controller') == 'full_learned_mpc')"
+    file="$(find gem_control)/launch/full_mpc_sim.launch">
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="use_rviz" value="$(arg use_rviz)"/>
+    <arg name="record_bag" value="$(arg record_bag)"/>
+    <arg name="reference_speed_mps" value="$(arg reference_speed_mps)"/>
+    <arg name="target_laps" value="$(arg target_laps)"/>
+    <arg name="initial_x_m" value="$(arg initial_x_m)"/>
+    <arg name="initial_y_m" value="$(arg initial_y_m)"/>
+    <arg name="initial_z_m" value="$(arg initial_z_m)"/>
+    <arg name="initial_yaw_rad" value="$(arg initial_yaw_rad)"/>
+    <arg
+      name="maximum_lateral_error_m"
+      value="$(arg maximum_lateral_error_m)"/>
+    <arg
+      name="maximum_yaw_error_rad"
+      value="$(arg maximum_yaw_error_rad)"/>
+    <arg
+      name="output_directory"
+      value="$(arg output_root)/full_learned_mpc"/>
+  </include>
+
+  <include
+    if="$(eval arg('controller') == 'simplified_mpc')"
+    file="$(find gem_control)/launch/simplified_mpc_sim.launch">
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="use_rviz" value="$(arg use_rviz)"/>
+    <arg name="record_bag" value="$(arg record_bag)"/>
+    <arg name="reference_speed_mps" value="$(arg reference_speed_mps)"/>
+    <arg name="target_laps" value="$(arg target_laps)"/>
+    <arg name="initial_x_m" value="$(arg initial_x_m)"/>
+    <arg name="initial_y_m" value="$(arg initial_y_m)"/>
+    <arg name="initial_z_m" value="$(arg initial_z_m)"/>
+    <arg name="initial_yaw_rad" value="$(arg initial_yaw_rad)"/>
+    <arg
+      name="maximum_lateral_error_m"
+      value="$(arg maximum_lateral_error_m)"/>
+    <arg
+      name="maximum_yaw_error_rad"
+      value="$(arg maximum_yaw_error_rad)"/>
+    <arg
+      name="output_directory"
+      value="$(arg output_root)/simplified_mpc"/>
+  </include>
+
+  <include
+    if="$(eval arg('controller') == 'cascaded_p')"
+    file="$(find gem_control)/launch/cascaded_p_sim.launch">
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="use_rviz" value="$(arg use_rviz)"/>
+    <arg name="record_bag" value="$(arg record_bag)"/>
+    <arg name="reference_speed_mps" value="$(arg reference_speed_mps)"/>
+    <arg name="target_laps" value="$(arg target_laps)"/>
+    <arg name="initial_x_m" value="$(arg initial_x_m)"/>
+    <arg name="initial_y_m" value="$(arg initial_y_m)"/>
+    <arg name="initial_z_m" value="$(arg initial_z_m)"/>
+    <arg name="initial_yaw_rad" value="$(arg initial_yaw_rad)"/>
+    <arg
+      name="maximum_lateral_error_m"
+      value="$(arg maximum_lateral_error_m)"/>
+    <arg
+      name="maximum_yaw_error_rad"
+      value="$(arg maximum_yaw_error_rad)"/>
+    <arg
+      name="output_directory"
+      value="$(arg output_root)/cascaded_p"/>
+  </include>
+</launch>

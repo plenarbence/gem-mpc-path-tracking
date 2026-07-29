@@ -1,0 +1,33 @@
+{
+  "controller": "cascaded_p",
+  "termination_reason": "completed_laps",
+  "cycle_count": 239,
+  "reference_speed_mps": 2.7777777778,
+  "target_laps": 0.0601165292474338,
+  "path_length_m": 831.7180087726769,
+  "initial_progress_m": -0.008043003531994941,
+  "target_progress_m": 49.99195699646803,
+  "last_logged_progress_m": 49.95084139363471,
+  "final_progress_m": 50.000944831963,
+  "achieved_laps": 0.06012733559694188,
+  "gains": {
+    "lateral_to_yaw_rad_per_m": 0.27,
+    "yaw_to_steering_rad_per_rad": 0.9,
+    "yaw_compensation_limit_rad": 0.5235987755982988
+  },
+  "timing_design": {
+    "controller_period_s": 0.1,
+    "command_delay_steps": 1,
+    "state_prediction_enabled": false,
+    "commissioned_delay_s": 0.0043666668
+  },
+  "deadline_miss_count": 0,
+  "mean_controller_compute_time_s": 0.0005667224770804447,
+  "maximum_controller_compute_time_s": 0.0009202459987136535,
+  "maximum_absolute_lateral_error_m": 1.8222760231880673,
+  "stop": {
+    "stationary": true,
+    "settling_duration_s": 1.7,
+    "final_speed_mps": 0.06901392904239483
+  }
+}

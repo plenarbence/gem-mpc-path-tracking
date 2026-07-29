@@ -1,0 +1,36 @@
+{
+  "termination_reason": "completed_laps",
+  "horizon_steps": 12,
+  "cycle_count": 270,
+  "progress_travelled_m": 49.956218371116435,
+  "lateral_error": {
+    "rms_m": 0.5293120764436298,
+    "p95_absolute_m": 1.5354444336474957,
+    "maximum_absolute_m": 1.8155541584012422
+  },
+  "original_csv_waypoint_distance": {
+    "metric": "unsigned distance to nearest selected-lap CSV waypoint",
+    "waypoint_count": 3151,
+    "rms_m": 0.5097372551679568,
+    "p95_m": 1.5384305849905475,
+    "maximum_m": 1.812801944558429
+  },
+  "yaw_error": {
+    "rms_rad": 0.2500882831836644,
+    "maximum_absolute_rad": 0.6982225734711319
+  },
+  "timing": {
+    "mean_total_compute_ms": 34.41655455557069,
+    "p95_total_compute_ms": 69.5473960997333,
+    "maximum_total_compute_ms": 79.07233099831501,
+    "deadline_miss_count": 0,
+    "mean_publish_interval_ms": 99.99999999999999,
+    "p95_absolute_publish_interval_error_ms": 5.689893001203927e-12
+  },
+  "commissioned_delay_ms": 4.3,
+  "stop": {
+    "stationary": true,
+    "settling_duration_s": 1.901,
+    "final_speed_mps": 0.06148898770337676
+  }
+}

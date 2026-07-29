@@ -1,0 +1,98 @@
+{
+  "scenario": {
+    "reference_speed_kmh": 10.0,
+    "target_distance_m": 50.0,
+    "requested_initial_lateral_error_m": 0.5,
+    "requested_initial_yaw_error_deg": 40.0,
+    "settled_recovery_definition": "First continuous 1.0 s with |lateral error| <= 0.10 m and |yaw error| <= 5 deg"
+  },
+  "controllers": {
+    "full_learned_mpc": {
+      "label": "Full learned MPC",
+      "termination_reason": "completed_laps",
+      "completed_50_m": true,
+      "elapsed_s": 26.9,
+      "progress_travelled_m": 49.956218371116435,
+      "maximum_progress_m": 49.956218371116435,
+      "initial_lateral_error_m": 0.49277617299067816,
+      "initial_yaw_error_deg": 40.00517006577732,
+      "lateral_error": {
+        "rms_m": 0.5293120764436298,
+        "maximum_absolute_m": 1.8155541584012422,
+        "outside_one_m_sample_fraction": 0.1
+      },
+      "yaw_error": {
+        "rms_deg": 14.329003132096528,
+        "maximum_absolute_deg": 40.005206620658896
+      },
+      "settled_recovery": {
+        "time_s": 7.8,
+        "distance_m": 13.75357611196983
+      },
+      "maximum_speed_kmh": 12.704334371543869,
+      "compute_time_ms": {
+        "mean": 34.41655455557069,
+        "p95": 69.5473960997333,
+        "maximum": 79.07233099831501,
+        "deadline_miss_count": 0
+      }
+    },
+    "simplified_mpc": {
+      "label": "Simplified MPC",
+      "termination_reason": "lap_timeout",
+      "completed_50_m": false,
+      "elapsed_s": 91.5,
+      "progress_travelled_m": 3.2844719743780395,
+      "maximum_progress_m": 3.6318779015206153,
+      "initial_lateral_error_m": 0.4929292243040491,
+      "initial_yaw_error_deg": 40.005066453357465,
+      "lateral_error": {
+        "rms_m": 2.139945874488521,
+        "maximum_absolute_m": 2.2470774381410394,
+        "outside_one_m_sample_fraction": 0.9890829694323144
+      },
+      "yaw_error": {
+        "rms_deg": 17.541936519785327,
+        "maximum_absolute_deg": 40.00510140852954
+      },
+      "settled_recovery": null,
+      "maximum_speed_kmh": 6.330259993356488,
+      "compute_time_ms": {
+        "mean": 17.833459380953805,
+        "p95": 24.016098997890367,
+        "maximum": 48.68797700328287,
+        "deadline_miss_count": 0
+      }
+    },
+    "cascaded_p": {
+      "label": "Cascaded P",
+      "termination_reason": "completed_laps",
+      "completed_50_m": true,
+      "elapsed_s": 23.8,
+      "progress_travelled_m": 49.959050577555765,
+      "maximum_progress_m": 49.959050577555765,
+      "initial_lateral_error_m": 0.49315741554954384,
+      "initial_yaw_error_deg": 40.004914076199995,
+      "lateral_error": {
+        "rms_m": 0.6134025824037589,
+        "maximum_absolute_m": 1.8222760231880673,
+        "outside_one_m_sample_fraction": 0.13389121338912133
+      },
+      "yaw_error": {
+        "rms_deg": 14.208661528588872,
+        "maximum_absolute_deg": 40.00494367069024
+      },
+      "settled_recovery": {
+        "time_s": 7.2,
+        "distance_m": 11.112131809095112
+      },
+      "maximum_speed_kmh": 10.399066815614646,
+      "compute_time_ms": {
+        "mean": 0.5667224770804447,
+        "p95": 0.7009441025729757,
+        "maximum": 0.9202459987136535,
+        "deadline_miss_count": 0
+      }
+    }
+  }
+}

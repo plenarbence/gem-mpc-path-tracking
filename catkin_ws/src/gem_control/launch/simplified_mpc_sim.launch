@@ -7,6 +7,12 @@
   <arg name="drive_duration_s" default="12.0"/>
   <arg name="stop_ramp_duration_s" default="3.0"/>
   <arg name="target_laps" default="0.0"/>
+  <arg name="initial_x_m" default="0.1277221954"/>
+  <arg name="initial_y_m" default="-2.0034035920"/>
+  <arg name="initial_z_m" default="0.5"/>
+  <arg name="initial_yaw_rad" default="-0.0019451707"/>
+  <arg name="maximum_lateral_error_m" default="0.8"/>
+  <arg name="maximum_yaw_error_rad" default="0.7"/>
   <arg
     name="output_directory"
     default="/workspace/results/simplified_mpc/simulator_run"/>
@@ -15,10 +21,10 @@
     <arg name="gui" value="$(arg gui)"/>
     <arg name="use_rviz" value="false"/>
     <arg name="cmd_timeout" value="0.5"/>
-    <arg name="x" value="0.1277221954"/>
-    <arg name="y" value="-2.0034035920"/>
-    <arg name="z" value="0.5"/>
-    <arg name="yaw" value="-0.0019451707"/>
+    <arg name="x" value="$(arg initial_x_m)"/>
+    <arg name="y" value="$(arg initial_y_m)"/>
+    <arg name="z" value="$(arg initial_z_m)"/>
+    <arg name="yaw" value="$(arg initial_yaw_rad)"/>
   </include>
 
   <node
@@ -82,8 +88,12 @@
     <param name="drive_duration_s" value="$(arg drive_duration_s)"/>
     <param name="stop_ramp_duration_s" value="$(arg stop_ramp_duration_s)"/>
     <param name="target_laps" value="$(arg target_laps)"/>
-    <param name="maximum_lateral_error_m" value="0.8"/>
-    <param name="maximum_yaw_error_rad" value="0.7"/>
+    <param
+      name="maximum_lateral_error_m"
+      value="$(arg maximum_lateral_error_m)"/>
+    <param
+      name="maximum_yaw_error_rad"
+      value="$(arg maximum_yaw_error_rad)"/>
     <param name="maximum_consecutive_failures" value="3"/>
     <param name="output_directory" value="$(arg output_directory)"/>
   </node>

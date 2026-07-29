@@ -1,0 +1,35 @@
+{
+  "controller": "simplified_mpc",
+  "termination_reason": "lap_timeout",
+  "horizon_steps": 12,
+  "horizon_duration_s": 1.2000000000000002,
+  "cycle_count": 916,
+  "reference_speed_mps": 2.7777777778,
+  "target_laps": 0.0601165292474338,
+  "path_length_m": 831.7180087726769,
+  "initial_progress_m": -0.008254891447595409,
+  "target_progress_m": 49.991745108552436,
+  "last_logged_progress_m": 3.2759892511619775,
+  "final_progress_m": 3.2759892511619775,
+  "achieved_laps": 0.003948747181098028,
+  "steering_limit_rad": 0.5,
+  "delay_prediction": {
+    "steps": 1,
+    "model": "learned_h2",
+    "commissioned_delay_s": 0.004566666700000001
+  },
+  "accepted_solve_count": 916,
+  "deadline_miss_count": 0,
+  "mean_solver_time_s": 0.015256820532643134,
+  "p95_solver_time_s": 0.021345299253880512,
+  "maximum_solver_time_s": 0.044529915001476184,
+  "mean_total_compute_time_s": 0.017833459380953803,
+  "p95_total_compute_time_s": 0.024016098997890367,
+  "maximum_total_compute_time_s": 0.04868797700328287,
+  "maximum_absolute_lateral_error_m": 2.2470774381410394,
+  "stop": {
+    "stationary": true,
+    "settling_duration_s": 0.2,
+    "final_speed_mps": 0.0002495787571995023
+  }
+}
