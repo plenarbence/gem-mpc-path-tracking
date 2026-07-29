@@ -1,0 +1,47 @@
+{
+  "controller": "simplified_mpc",
+  "termination_reason": "completed_laps",
+  "horizon_steps": 12,
+  "horizon_duration_s": 1.2000000000000002,
+  "cycle_count": 2078,
+  "progress_travelled_m": 831.6773529878122,
+  "lateral_error": {
+    "rms_m": 0.014981746740682795,
+    "p95_absolute_m": 0.031103621503489366,
+    "maximum_absolute_m": 0.052327874523836464
+  },
+  "yaw_error": {
+    "rms_rad": 0.003443518751659268,
+    "maximum_absolute_rad": 0.02959819465149272
+  },
+  "original_csv_waypoint_distance": {
+    "metric": "unsigned distance to nearest selected-lap CSV waypoint",
+    "waypoint_count": 3151,
+    "rms_m": 0.08850894154218092,
+    "p95_m": 0.1652234433114359,
+    "maximum_m": 0.2607618366915407
+  },
+  "timing": {
+    "delay_prediction_steps": 1,
+    "delay_prediction_model": "learned_h2",
+    "mean_compute_ms": 12.325088496593228,
+    "p95_compute_ms": 16.419461201076047,
+    "maximum_compute_ms": 39.77061600016896,
+    "deadline_miss_count": 0,
+    "mean_publish_interval_ms": 99.99999999999999
+  },
+  "speed": {
+    "maximum_measured_mps": 5.36641941396451,
+    "maximum_published_command_mps": 5.370837648167662
+  },
+  "steering": {
+    "maximum_absolute_published_command_rad": 0.05895499392755552,
+    "saturation_count": 0
+  },
+  "commissioned_delay_ms": 4.4833333,
+  "stop": {
+    "stationary": false,
+    "settling_duration_s": 4.1,
+    "final_speed_mps": 0.13243259707205796
+  }
+}

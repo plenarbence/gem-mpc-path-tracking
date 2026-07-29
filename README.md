@@ -253,6 +253,32 @@ Implementation, timing, and validation details are in
 
 ![Cascaded-P validation](results/cascaded_p/simulator_19p5_kmh/validation.png)
 
+## Extra Controller: Simplified MPC
+
+The separate simplified hierarchical MPC optimizes speed-state and yaw
+increments with a 12-step, 1.2 s kinematic horizon. A lower yaw-P conversion
+produces the steering command with a `+/-0.5 rad` limit. The selected H2 neural
+model is used only for one causal delay-prediction step before optimization,
+not inside the horizon.
+
+Run the validated requested 19.5 km/h lap with:
+
+```bash
+roslaunch gem_control simplified_mpc_sim.launch \
+  gui:=true use_rviz:=true \
+  reference_speed_mps:=5.4166666667 target_laps:=1.0 \
+  output_directory:=/workspace/results/simplified_mpc/simulator_h12_19p5_kmh
+```
+
+The completed lap achieved `0.0150 m` RMS and `0.0523 m` maximum absolute
+lateral error. All 2,078 solves were accepted; complete calculation was
+`16.42 ms` p95 and `39.77 ms` maximum, with no `80 ms` deadline misses.
+The unchanged `v1` longitudinal interface reached `19.32 km/h` but did not
+hold that speed against the Gazebo lower-loop/rolling-load mismatch. Details
+are in [`docs/simplified_mpc.md`](docs/simplified_mpc.md).
+
+![Simplified-MPC validation](results/simplified_mpc/simulator_h12_19p5_kmh/validation.png)
+
 ## Status
 
 Docker environment, GEM simulator, uniform identification world, reusable CSV
@@ -262,4 +288,5 @@ identification experiment are implemented. The system-identification stage and
 the shared smoothed reference-path layer are complete. The offline full learned
 MPC core, delayed-state preparation, warm start, horizon selection, guarded ROS
 execution, solver deadline handling, and closed-loop Gazebo validation are
-implemented.
+implemented. The cascaded-P and simplified hierarchical-MPC extensions are
+implemented and validated as separate controllers.

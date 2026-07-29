@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="gui" default="true"/>
+  <arg name="use_rviz" default="true"/>
+  <arg name="record_bag" default="false"/>
+  <arg name="reference_speed_mps" default="2.0"/>
+  <arg name="drive_duration_s" default="12.0"/>
+  <arg name="stop_ramp_duration_s" default="3.0"/>
+  <arg name="target_laps" default="0.0"/>
+  <arg
+    name="output_directory"
+    default="/workspace/results/simplified_mpc/simulator_run"/>
+
+  <include file="$(find gem_sysid)/launch/sysid_sim.launch">
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="use_rviz" value="false"/>
+    <arg name="cmd_timeout" value="0.5"/>
+    <arg name="x" value="0.1277221954"/>
+    <arg name="y" value="-2.0034035920"/>
+    <arg name="z" value="0.5"/>
+    <arg name="yaw" value="-0.0019451707"/>
+  </include>
+
+  <node
+    if="$(arg use_rviz)"
+    pkg="rviz"
+    type="rviz"
+    name="simplified_mpc_rviz"
+    ns="gem"
+    args="-d $(find gem_control)/config/full_mpc.rviz"
+    output="screen"/>
+
+  <node
+    if="$(arg record_bag)"
+    pkg="rosbag"
+    type="record"
+    name="simplified_mpc_recorder"
+    output="screen"
+    args="-o /workspace/results/simplified_mpc/simplified_mpc_run
+      /clock
+      /gem_control/simplified_mpc/ackermann_cmd_stamped
+      /gem_sysid/ackermann_cmd_stamped
+      /gem_sysid/profile_start
+      /gem_sysid/commissioning_delay_ms
+      /gem/ackermann_cmd
+      /gem/base_footprint/odom
+      /gem/left_steering_ctrlr/command
+      /gem/right_steering_ctrlr/command"/>
+
+  <node
+    pkg="gem_sysid"
+    type="excitation_node"
+    name="simplified_mpc_phase_commissioning"
+    output="screen">
+    <param
+      name="profile_csv"
+      value="$(find gem_control)/profiles/mpc_commissioning.csv"/>
+    <param name="command_topic" value="/gem/ackermann_cmd"/>
+    <param
+      name="stamped_command_topic"
+      value="/gem_sysid/ackermann_cmd_stamped"/>
+    <param name="sample_period_s" value="0.1"/>
+    <param name="max_speed_mps" value="5.5"/>
+    <param name="max_abs_steering_rad" value="0.50"/>
+    <param name="startup_delay_s" value="5.0"/>
+    <param name="subscriber_timeout_s" value="10.0"/>
+    <param name="enable_phase_commissioning" value="true"/>
+    <param name="target_takeover_delay_s" value="0.005"/>
+    <param name="commissioning_trials" value="10"/>
+    <param name="commissioning_steering_rad" value="0.02"/>
+    <param name="commissioning_batch_span_s" value="0.01"/>
+    <param name="commissioning_response_timeout_s" value="5.0"/>
+  </node>
+
+  <node
+    pkg="gem_control"
+    type="run_simplified_mpc.py"
+    name="simplified_mpc_controller"
+    output="screen"
+    required="true">
+    <param name="reference_speed_mps" value="$(arg reference_speed_mps)"/>
+    <param name="drive_duration_s" value="$(arg drive_duration_s)"/>
+    <param name="stop_ramp_duration_s" value="$(arg stop_ramp_duration_s)"/>
+    <param name="target_laps" value="$(arg target_laps)"/>
+    <param name="maximum_lateral_error_m" value="0.8"/>
+    <param name="maximum_yaw_error_rad" value="0.7"/>
+    <param name="maximum_consecutive_failures" value="3"/>
+    <param name="output_directory" value="$(arg output_directory)"/>
+  </node>
+</launch>

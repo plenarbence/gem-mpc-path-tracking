@@ -1,0 +1,32 @@
+period_s: 0.1
+horizon_steps: 12
+
+solver:
+  computation_budget_s: 0.08
+  ipopt_cpu_limit_s: 0.065
+  ipopt_max_iterations: 80
+
+model:
+  wheelbase_m: 1.75
+  lower_yaw_p_gain_rad_per_rad: 1.3151152437925338
+  delta_speed_scale_mps: 0.2
+  delta_yaw_scale_rad: 0.1735
+  frenet_minimum_denominator: 0.25
+
+limits:
+  minimum_speed_command_mps: 0.0
+  maximum_speed_command_mps: 5.5
+  maximum_predicted_speed_mps: 5.56
+  maximum_steering_command_rad: 0.5
+
+timing:
+  maximum_odometry_age_s: 0.12
+  learned_delay_prediction_steps: 1
+
+# Frozen v1 robust-candidate weights.
+weights:
+  lateral: 8.0
+  yaw: 212.7565413928612
+  progression: 0.5580760220602027
+  delta_yaw: 7.506251820734166
+  delta_speed: 4.0
